@@ -1,32 +1,35 @@
-import * as React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useMDXComponent } from 'next-contentlayer/hooks';
-import Tweet from './tweet';
+import Image from "next/image";
+import Link from "next/link";
 
-const CustomLink = (props) => {
-  const href = props.href;
+import { useMDXComponent } from "next-contentlayer/hooks";
 
-  if (href.startsWith('/')) {
+interface CustomLinkProps {
+  alt?: string;
+  href: string;
+  children: React.ReactNode;
+}
+
+const CustomLink = ({ href, children }: CustomLinkProps) => {
+  if (href.startsWith("/")) {
     return (
-      <Link href={href} {...props}>
-        {props.children}
+      <Link href={href}>
+        {children}
       </Link>
     );
   }
 
-  if (href.startsWith('#')) {
-    return <a {...props} />;
+  if (href.startsWith("#")) {
+    return <a href={href}>{children}</a>;
   }
 
-  return <a target="_blank" rel="noopener noreferrer" {...props} />;
+  return <a target="_blank" rel="noopener noreferrer" href={href}>{children}</a>;
 };
 
-function RoundedImage(props) {
-  return <Image alt={props.alt} className="rounded-lg" {...props} />;
+function RoundedImage(props: React.ComponentProps<typeof Image>) {
+  return <Image className="rounded-lg" {...props} />;
 }
 
-function Callout(props) {
+function Callout(props: React.ComponentProps<'div'> & { emoji: string }) {
   return (
     <div className="px-4 py-3 border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 rounded p-1 text-sm flex items-center text-neutral-900 dark:text-neutral-100 mb-8">
       <div className="flex items-center w-4 mr-4">{props.emoji}</div>
@@ -35,7 +38,12 @@ function Callout(props) {
   );
 }
 
-function ProsCard({ title, pros }) {
+interface ProsCardProps {
+  title: string;
+  pros: string[];
+}
+
+function ProsCard({ title, pros }: ProsCardProps) {
   return (
     <div className="border border-emerald-200 dark:border-emerald-900 bg-neutral-50 dark:bg-neutral-900 rounded-xl p-6 my-4 w-full">
       <span>{`You might use ${title} if...`}</span>
@@ -44,6 +52,7 @@ function ProsCard({ title, pros }) {
           <div key={pro} className="flex font-medium items-baseline mb-2">
             <div className="h-4 w-4 mr-2">
               <svg className="h-4 w-4 text-emerald-500" viewBox="0 0 24 24">
+                <title>Check</title>
                 <g
                   fill="none"
                   stroke="currentColor"
@@ -64,7 +73,12 @@ function ProsCard({ title, pros }) {
   );
 }
 
-function ConsCard({ title, cons }) {
+interface ConsCardProps {
+  title: string;
+  cons: string[];
+}
+
+function ConsCard({ title, cons }: ConsCardProps) {
   return (
     <div className="border border-red-200 dark:border-red-900 bg-neutral-50 dark:bg-neutral-900 rounded-xl p-6 my-6 w-full">
       <span>{`You might not use ${title} if...`}</span>
@@ -78,6 +92,7 @@ function ConsCard({ title, cons }) {
                 fill="currentColor"
                 className="h-4 w-4 text-red-500"
               >
+                <title>Check</title>
                 <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
               </svg>
             </div>
@@ -99,19 +114,14 @@ const components = {
 
 interface MdxProps {
   code: string;
-  tweets: Record<string, any>;
 }
 
-export function Mdx({ code, tweets }: MdxProps) {
+export function Mdx({ code }: MdxProps) {
   const Component = useMDXComponent(code);
-  const StaticTweet = ({ id }) => {
-    const tweet = tweets.find((tweet) => tweet.id === id);
-    return <Tweet {...tweet} />;
-  };
 
   return (
     <article className="prose prose-quoteless prose-neutral dark:prose-invert">
-      <Component components={{ ...components, StaticTweet }} />
+      <Component components={{ ...components }} />
     </article>
   );
 }

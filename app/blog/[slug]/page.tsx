@@ -1,11 +1,10 @@
-import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import { Mdx } from 'app/components/mdx';
-import { allBlogs } from 'contentlayer/generated';
-import { getTweets } from 'lib/twitter';
-import Balancer from 'react-wrap-balancer';
-import ViewCounter from '../view-counter';
-import { getViewsCount } from 'lib/metrics';
+import type { Metadata } from "next";
+
+import { allBlogs } from "contentlayer/generated";
+import { notFound } from "next/navigation";
+import { Mdx } from "app/components/mdx";
+
+import Balancer from "react-wrap-balancer";
 
 export async function generateMetadata({
   params,
@@ -32,7 +31,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      type: 'article',
+      type: "article",
       publishedTime,
       url: `https://leerob.io/blog/${slug}`,
       images: [
@@ -42,7 +41,7 @@ export async function generateMetadata({
       ],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title,
       description,
       images: [ogImage],
@@ -58,7 +57,7 @@ function formatDate(date: string) {
   const monthsAgo = currentDate.getMonth() - targetDate.getMonth();
   const daysAgo = currentDate.getDate() - targetDate.getDate();
 
-  let formattedDate = '';
+  let formattedDate = "";
 
   if (yearsAgo > 0) {
     formattedDate = `${yearsAgo}y ago`;
@@ -67,13 +66,13 @@ function formatDate(date: string) {
   } else if (daysAgo > 0) {
     formattedDate = `${daysAgo}d ago`;
   } else {
-    formattedDate = 'Today';
+    formattedDate = "Today";
   }
 
-  const fullDate = targetDate.toLocaleString('en-us', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
+  const fullDate = targetDate.toLocaleString("en-us", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
   });
 
   return `${fullDate} (${formattedDate})`;
@@ -86,18 +85,16 @@ export default async function Blog({ params }) {
     notFound();
   }
 
-  const [allViews, tweets] = await Promise.all([
-    getViewsCount(),
-    getTweets(post.tweetIds),
-  ]);
-
   return (
     <section>
       <script
         type="application/ld+json"
         suppressHydrationWarning
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(post.structuredData) }}
-      ></script>
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(post.structuredData),
+        }}
+      />
       <h1 className="font-bold text-2xl tracking-tighter max-w-[650px]">
         <Balancer>{post.title}</Balancer>
       </h1>
@@ -105,9 +102,8 @@ export default async function Blog({ params }) {
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
           {formatDate(post.publishedAt)}
         </p>
-        <ViewCounter allViews={allViews} slug={post.slug} trackView />
       </div>
-      <Mdx code={post.body.code} tweets={tweets} />
+      <Mdx code={post.body.code} />
     </section>
   );
 }
