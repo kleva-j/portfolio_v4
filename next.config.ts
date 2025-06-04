@@ -1,11 +1,10 @@
 import type { NextConfig } from "next";
 
-import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import createMDX from "@next/mdx";
 
 const nextConfig: NextConfig = {
-  pageExtensions: ["mdx", "ts", "tsx"],
+  pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
@@ -88,7 +87,18 @@ const withMDX = createMDX({
   extension: /\.(md|mdx)$/,
   options: {
     remarkPlugins: [remarkGfm],
-    rehypePlugins: [rehypeSlug],
+    rehypePlugins: [
+      ["rehype-slug", { strict: true, throwOnError: true }],
+      [
+        "rehype-autolink-headings",
+        {
+          behavior: "wrap",
+          properties: {
+            className: ["anchor"],
+          },
+        },
+      ],
+    ],
   },
 });
 
