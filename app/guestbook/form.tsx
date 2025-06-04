@@ -1,6 +1,6 @@
 "use client";
 
-import { experimental_useFormStatus as useFormStatus } from "react-dom";
+import { useFormStatus } from "react-dom";
 import { useRef } from "react";
 
 export default function Form() {
