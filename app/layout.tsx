@@ -1,28 +1,31 @@
 import type { PropsWithChildren } from "react";
 import type { Metadata } from "next";
 
+import { ThemeProvider } from "@/components/theme-provider";
 import { siteConfig } from "@/lib/site/config";
+import { Navbar } from "@/components/navbar";
 import { graphik } from "@/lib/fonts";
-
-import Navbar from "@/components/navbar";
-import clsx from "clsx";
+import { cn } from "@/lib/utils";
 
 import "@/app/global.css";
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
-    <html
-      lang="en"
-      className={clsx(
-        "text-black bg-white dark:text-white dark:bg-[#111010] font-[var(--font-graphik)]",
-        graphik.variable
-      )}
-    >
-      <body className="antialiased max-w-2xl mb-40 flex flex-col md:flex-row mx-4 mt-8 lg:mx-auto">
-        <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
-          <Navbar />
-          {children}
-        </main>
+    <html lang="en" suppressHydrationWarning>
+      <body className={cn("bg-background antialiased", graphik.variable)}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <section className="max-w-2xl mb-40 flex flex-col md:flex-row mx-4 mt-8 lg:mx-auto">
+            <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
+              <Navbar />
+              {children}
+            </main>
+          </section>
+        </ThemeProvider>
       </body>
     </html>
   );

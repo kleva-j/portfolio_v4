@@ -1,6 +1,6 @@
 "use client";
 
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ModeToggle } from "@/components/theme-toggle";
 import { LayoutGroup, motion } from "framer-motion";
 import { siteConfig } from "@/lib/site/config";
 import { usePathname } from "next/navigation";
@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 import Link from "next/link";
 
-export default function Navbar() {
+export function Navbar() {
   let pathname = usePathname() || "/";
   if (pathname.includes("/post/")) pathname = "/post";
 
@@ -54,7 +54,7 @@ export default function Navbar() {
             </div>
           </nav>
         </LayoutGroup>
-        <ThemeToggle />
+        <ModeToggle />
       </div>
     </aside>
   );
