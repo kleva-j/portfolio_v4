@@ -88,16 +88,16 @@ const components = {
     <table>
       <thead>
         <tr>
-          {data.headers.map((header) => (
-            <th key={`header-${header}`}>{header}</th>
+          {data.headers.map((header, headerIndex) => (
+            <th key={`header-${headerIndex}`}>{header}</th>
           ))}
         </tr>
       </thead>
       <tbody>
-        {data.rows.map((row) => (
-          <tr key={`row-${row}`}>
-            {row.map((cell) => (
-              <td key={`cell-${cell}`}>{cell}</td>
+        {data.rows.map((row, rowIndex) => (
+          <tr key={`row-${rowIndex}`}>
+            {row.map((cell, cellIndex) => (
+              <td key={`cell-${rowIndex}-${cellIndex}`}>{cell}</td>
             ))}
           </tr>
         ))}

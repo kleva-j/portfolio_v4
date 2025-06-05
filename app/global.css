@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 @theme {
-  --font-family-sans: 'Inter', sans-serif;
+  --font-family-sans: var(--font-graphik), 'Inter', sans-serif;
 }
 
 :root {

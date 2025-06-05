@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { notFound } from "next/navigation";
-// import { Mdx } from "app/components/mdx";
 import { formatDate } from "@/lib/utils";
 import { allPost } from "@/lib/constant";
 
@@ -44,12 +43,10 @@ async function generateMetadata(
 }
 
 function generateStaticParams() {
-  return [{ slug: "welcome" }, { slug: "about" }];
+  return allPost.map((post) => ({ slug: post.slug }));
 }
 
 export { generateMetadata, generateStaticParams };
-
-formatDate;
 
 export default async function Blog(props: BlogMetadata) {
   const params = await props.params;

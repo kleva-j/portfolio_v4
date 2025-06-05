@@ -1,4 +1,6 @@
-export const allPost = [
+import type { Post } from "@/types";
+
+export const allPost: Post[] = [
   {
     slug: "welcome",
     title: "Welcome to my blog",
