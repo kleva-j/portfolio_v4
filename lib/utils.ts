@@ -1,4 +1,9 @@
+import differenceInMonths from "date-fns/differenceInMonths";
+import differenceInYears from "date-fns/differenceInYears";
+import differenceInDays from "date-fns/differenceInDays";
+
 import { clsx, type ClassValue } from "clsx";
+
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -9,11 +14,9 @@ export function formatDate(date: string) {
   const currentDate = new Date();
   const targetDate = new Date(date);
 
-  const diffTime = Math.abs(currentDate.getTime() - targetDate.getTime());
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-  const yearsAgo = Math.floor(diffDays / 365);
-  const monthsAgo = Math.floor(diffDays / 30);
+  const monthsAgo = differenceInMonths(currentDate, targetDate);
+  const yearsAgo = differenceInYears(currentDate, targetDate);
+  const diffDays = differenceInDays(currentDate, targetDate);
 
   const formattedDate =
     yearsAgo > 0
