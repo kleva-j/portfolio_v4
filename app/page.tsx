@@ -1,3 +1,6 @@
+import { ArrowUpRight } from "lucide-react";
+import { Suspense } from "react";
+
 import reactathon from "public/images/home/reactathon.jpg";
 import smashing from "public/images/home/smashing.jpg";
 import filming from "public/images/home/filming.jpg";
@@ -8,8 +11,6 @@ import ship from "public/images/home/ship.jpg";
 import avatar from "app/avatar.jpg";
 import Image from "next/image";
 
-import { Suspense } from "react";
-
 function Badge(props: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
   return (
     <a
@@ -17,24 +18,6 @@ function Badge(props: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
       target="_blank"
       className="border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 rounded p-1 text-sm inline-flex items-center leading-4 text-neutral-900 dark:text-neutral-100 no-underline"
     />
-  );
-}
-
-function ArrowIcon() {
-  return (
-    <svg
-      width="12"
-      height="12"
-      viewBox="0 0 12 12"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <title>Arrow</title>
-      <path
-        d="M2.07102 11.3494L0.963068 10.2415L9.2017 1.98864H2.83807L2.85227 0.454545H11.8438V9.46023H10.2955L10.3097 3.09659L2.07102 11.3494Z"
-        fill="currentColor"
-      />
-    </svg>
   );
 }
 
@@ -86,7 +69,7 @@ function ChannelLink({ img, link, name, subscribers }) {
         </div>
       </div>
       <div className="text-neutral-700 dark:text-neutral-300">
-        <ArrowIcon />
+        <ArrowUpRight className="stroke-2 size-5" />
       </div>
     </a>
   );
@@ -104,7 +87,7 @@ async function BlogLink({ slug, name }) {
         </p>
       </div>
       <div className="text-neutral-700 dark:text-neutral-300">
-        <ArrowIcon />
+        <ArrowUpRight className="stroke-2 size-5" />
       </div>
     </a>
   );
@@ -532,7 +515,7 @@ export default async function Page() {
             target="_blank"
             href="https://twitter.com/leeerob"
           >
-            <ArrowIcon />
+            <ArrowUpRight className="stroke-2 size-5" />
             <p className="h-7 ml-2">follow me</p>
           </a>
         </li>
@@ -543,7 +526,7 @@ export default async function Page() {
             target="_blank"
             href="https://leerob.substack.com"
           >
-            <ArrowIcon />
+            <ArrowUpRight className="stroke-2 size-5" />
             <p className="h-7 ml-2">get email updates</p>
           </a>
         </li>

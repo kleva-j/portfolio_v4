@@ -1,47 +1,45 @@
+import type { PropsWithChildren } from "react";
 import type { Metadata } from "next";
 
-import { Analytics } from "@vercel/analytics/react";
+import { siteConfig } from "@/lib/site/config";
+import { graphik } from "@/lib/fonts";
 
-import Sidebar from "@/components/sidebar";
-import localFont from "next/font/local";
+import Navbar from "@/components/navbar";
 import clsx from "clsx";
 
 import "@/app/global.css";
 
-const graphik = localFont({
-  src: [
-    {
-      path: "../public/fonts/Graphik-Regular.ttf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/Graphik-Medium.ttf",
-      weight: "600",
-      style: "bold",
-    },
-  ],
-  variable: "--font-graphik",
-  display: "swap",
-});
+export default function RootLayout({ children }: PropsWithChildren) {
+  return (
+    <html
+      lang="en"
+      className={clsx(
+        "text-black bg-white dark:text-white dark:bg-[#111010] font-[var(--font-graphik)]",
+        graphik.variable
+      )}
+    >
+      <body className="antialiased max-w-2xl mb-40 flex flex-col md:flex-row mx-4 mt-8 lg:mx-auto">
+        <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
+          <Navbar />
+          {children}
+        </main>
+      </body>
+    </html>
+  );
+}
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://leerob.io"),
+  metadataBase: new URL(siteConfig.url),
 
   title: {
-    default: "Lee Robinson",
-    template: "%s | Lee Robinson",
+    default: siteConfig.name,
+    template: "%s | Michael Obasi",
   },
 
-  description: "Developer, writer, and creator.",
+  description: siteConfig.description,
 
   openGraph: {
-    title: "Lee Robinson",
-    description: "Developer, writer, and creator.",
-    url: "https://leerob.io",
-    siteName: "Lee Robinson",
-    locale: "en-US",
-    type: "website",
+    ...siteConfig.openGraph,
   },
 
   robots: {
@@ -57,36 +55,6 @@ export const metadata: Metadata = {
   },
 
   twitter: {
-    title: "Lee Robinson",
-    card: "summary_large_image",
-  },
-
-  verification: {
-    google: "eZSdmzAXlLkKhNJzfgwDqWORghxnJ8qR9_CHdAh5-xw",
-    yandex: "14d2e73487fa6c71",
+    ...siteConfig.twitter,
   },
 };
-
-interface RootLayoutProps {
-  children: React.ReactNode;
-}
-
-export default function RootLayout({ children }: RootLayoutProps) {
-  return (
-    <html
-      lang="en"
-      className={clsx(
-        "text-black bg-white dark:text-white dark:bg-[#111010] font-[var(--font-graphik)]",
-        graphik.variable
-      )}
-    >
-      <body className="antialiased max-w-2xl mb-40 flex flex-col md:flex-row mx-4 mt-8 lg:mx-auto">
-        <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
-          <Sidebar />
-          {children}
-          {/* <Analytics /> */}
-        </main>
-      </body>
-    </html>
-  );
-}
