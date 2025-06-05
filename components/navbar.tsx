@@ -1,41 +1,37 @@
 "use client";
 
+import { ThemeToggle } from "@/components/theme-toggle";
 import { LayoutGroup, motion } from "framer-motion";
+import { siteConfig } from "@/lib/site/config";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 import Link from "next/link";
-import clsx from "clsx";
-
-const navItems = {
-  "/": { name: "home" },
-  "/post": { name: "post" },
-  "/snippets": { name: "snippets" },
-};
 
 export default function Navbar() {
   let pathname = usePathname() || "/";
   if (pathname.includes("/post/")) pathname = "/post";
 
+  const { navigation } = siteConfig;
+
   return (
     <aside className="-ml-[8px] mb-16 tracking-tight">
-      <div className="lg:sticky lg:top-20">
+      <div className="lg:sticky lg:top-20 flex justify-between">
         <LayoutGroup>
           <nav
             className="flex flex-row items-start relative px-0 pb-0 fade md:overflow-auto scroll-pr-6 md:relative"
             id="nav"
           >
             <div className="flex flex-row space-x-0 pr-10">
-              {Object.entries(navItems).map(([path, { name }]) => {
+              {Object.entries(navigation).map(([path, { name }]) => {
                 const isActive = path === pathname;
                 return (
                   <Link
                     key={path}
                     href={path}
-                    className={clsx(
+                    className={cn(
                       "transition-all hover:text-neutral-800 dark:hover:text-neutral-200 flex align-middle",
-                      {
-                        "text-neutral-500": !isActive,
-                      }
+                      { "text-neutral-500": !isActive }
                     )}
                   >
                     <span className="relative py-1 px-2">
@@ -58,6 +54,7 @@ export default function Navbar() {
             </div>
           </nav>
         </LayoutGroup>
+        <ThemeToggle />
       </div>
     </aside>
   );
