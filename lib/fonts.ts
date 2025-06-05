@@ -10,7 +10,7 @@ export const graphik = localFont({
     {
       path: "../public/fonts/Graphik-Medium.ttf",
       weight: "600",
-      style: "bold",
+      style: "normal",
     },
   ],
   variable: "--font-graphik",
