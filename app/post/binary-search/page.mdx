@@ -1,0 +1,126 @@
+---
+title: Binary Search
+summary: Binary Search Algorithm implementation in JS
+date: 2025-05-29
+author: Michael Obasi
+---
+
+### About Binary Search
+
+Binary search is a search algorithm that finds the position of a target value within a sorted array. The algorithm repeatedly divides the search interval in half, comparing the target value to the middle element of the interval. If the target value matches the middle element, the search is complete. If the target value is less than the middle element, the search continues in the left half of the interval. If the target value is greater than the middle element, the search continues in the right half of the `interval`. The process repeats until the target value is found or the search interval is empty.
+
+---
+
+### Implementation
+
+```ts app/page.tsx
+function binarySearch(arr: number[], target: number): number {
+  let left = 0;
+  let right = arr.length - 1;
+
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    if (arr[mid] === target) {
+      return mid;
+    } else if (arr[mid] < target) {
+      left = mid + 1;
+    } else {
+      right = mid - 1;
+    }
+  }
+
+  return -1;
+}
+```
+
+### TEST
+
+```plaintext JStack File Structure
+app/
+  └── server/
+      ├── jstack.ts        # Initialize JStack
+      ├── index.ts         # Main appRouter
+      └── routers/         # Router directory
+          ├── user-router.ts
+          ├── post-router.ts
+          └── ...
+```
+
+{/* <Description content="Binary Search Algorithm implementation in JS" /> */}
+
+```ts server/jstack.ts {1,7}
+import { jstack } from 'jstack';
+
+interface Env {
+  Bindings: { DATABASE_URL: string };
+}
+
+export const j = jstack.init<Env>();
+
+/**
+ * Public (unauthenticated) procedures
+ * This is the base part you use to create new procedures.
+ */
+export const publicProcedure = j.procedure;
+```
+
+{/* <Description content="Binary Search Algorithm implementation in JS" /> */}
+
+```tsx app/page.tsx
+const res = await client.post.recent.$get();
+const post = await res.json();
+// ^ automatically type-safe: { post: Post }
+```
+
+### Another Implementation
+
+```bash Terminal
+npx wrangler deploy server/index.ts
+```
+
+---
+
+### Analysis
+
+- Time Complexity: O(log n)
+- Space Complexity: O(1)
+
+---
+
+### Example
+
+```ts {4-10} server/routers/post-router.ts
+const arr = [1, 2, 3, 4, 5];
+const target = 3;
+const result = binarySearch(arr, target);
+console.log(result); // Output: 2
+```
+
+---
+
+### Applications
+
+- Searching for an element in a sorted array
+- Finding the index of a target element
+- Implementing a binary search algorithm
+
+---
+
+### Limitations
+
+- Not efficient for large datasets
+- Not suitable for searching in unsorted arrays
+- Not recommended for production use
+
+---
+
+### Conclusion
+
+Binary search is a simple and easy-to-implement search algorithm, but it is not the most efficient for large datasets. It is best used for small datasets or when the dataset is sorted.
+
+---
+
+### References
+
+- [Binary Search Algorithm](https://www.geeksforgeeks.org/binary-search/)
+- [Binary Search Algorithm in JS](https://www.geeksforgeeks.org/binary-search-algorithm-in-js/)

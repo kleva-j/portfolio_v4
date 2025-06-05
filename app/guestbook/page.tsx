@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Guestbook",
-  description: "Sign my guestbook and leave your mark.",
+  description: "Sign my guestbook and leave your mark."
 };
 
 export const dynamic = "force-dynamic";

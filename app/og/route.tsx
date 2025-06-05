@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 
-import { ImageResponse } from "next/server";
+import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
@@ -46,13 +46,7 @@ export async function GET(req: NextRequest) {
     {
       width: 1920,
       height: 1080,
-      fonts: [
-        {
-          name: "Kaisei Tokumin",
-          data: fontData,
-          style: "normal",
-        },
-      ],
+      fonts: [{ name: "Kaisei Tokumin", data: fontData, style: "normal" }],
     }
   );
 }

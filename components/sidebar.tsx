@@ -8,13 +8,13 @@ import clsx from "clsx";
 
 const navItems = {
   "/": { name: "home" },
-  "/blog": { name: "blog" },
+  "/post": { name: "post" },
   "/guestbook": { name: "guestbook" },
 };
 
 export default function Navbar() {
   let pathname = usePathname() || "/";
-  if (pathname.includes("/blog/")) pathname = "/blog";
+  if (pathname.includes("/post/")) pathname = "/post";
 
   return (
     <aside className="-ml-[8px] mb-16 tracking-tight">

@@ -1,26 +1,24 @@
 import type { Metadata } from "next";
 
-import { allBlogs } from "contentlayer/generated";
 import { notFound } from "next/navigation";
-import { Mdx } from "app/components/mdx";
+// import { Mdx } from "app/components/mdx";
+import { formatDate } from "@/lib/utils";
+import { allPost } from "@/lib/constant";
 
 import Balancer from "react-wrap-balancer";
 
-export async function generateMetadata({
-  params,
-}): Promise<Metadata | undefined> {
-  const post = allBlogs.find((post) => post.slug === params.slug);
-  if (!post) {
-    return;
-  }
+export type BlogMetadata = { params: Promise<{ slug: string }> };
 
-  const {
-    title,
-    publishedAt: publishedTime,
-    summary: description,
-    image,
-    slug,
-  } = post;
+async function generateMetadata(
+  props: BlogMetadata
+): Promise<Metadata | undefined> {
+  const params = await props.params;
+  const post = allPost.find((post) => post.slug === params.slug);
+
+  if (!post) return;
+
+  const { title, publishedAt, summary: description, image, slug } = post;
+
   const ogImage = image
     ? `https://leerob.io${image}`
     : `https://leerob.io/og?title=${title}`;
@@ -32,13 +30,9 @@ export async function generateMetadata({
       title,
       description,
       type: "article",
-      publishedTime,
+      publishedTime: publishedAt,
+      images: [{ url: ogImage }],
       url: `https://leerob.io/blog/${slug}`,
-      images: [
-        {
-          url: ogImage,
-        },
-      ],
     },
     twitter: {
       card: "summary_large_image",
@@ -49,41 +43,22 @@ export async function generateMetadata({
   };
 }
 
-function formatDate(date: string) {
-  const currentDate = new Date();
-  const targetDate = new Date(date);
-
-  const yearsAgo = currentDate.getFullYear() - targetDate.getFullYear();
-  const monthsAgo = currentDate.getMonth() - targetDate.getMonth();
-  const daysAgo = currentDate.getDate() - targetDate.getDate();
-
-  let formattedDate = "";
-
-  if (yearsAgo > 0) {
-    formattedDate = `${yearsAgo}y ago`;
-  } else if (monthsAgo > 0) {
-    formattedDate = `${monthsAgo}mo ago`;
-  } else if (daysAgo > 0) {
-    formattedDate = `${daysAgo}d ago`;
-  } else {
-    formattedDate = "Today";
-  }
-
-  const fullDate = targetDate.toLocaleString("en-us", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-
-  return `${fullDate} (${formattedDate})`;
+function generateStaticParams() {
+  return [{ slug: "welcome" }, { slug: "about" }];
 }
 
-export default async function Blog({ params }) {
-  const post = allBlogs.find((post) => post.slug === params.slug);
+export { generateMetadata, generateStaticParams };
 
-  if (!post) {
-    notFound();
-  }
+formatDate;
+
+export default async function Blog(props: BlogMetadata) {
+  const params = await props.params;
+
+  const post = allPost.find((post) => post.slug === params.slug);
+
+  if (!post) return notFound();
+
+  const __html = JSON.stringify(post.structuredData);
 
   return (
     <section>
@@ -91,9 +66,7 @@ export default async function Blog({ params }) {
         type="application/ld+json"
         suppressHydrationWarning
         // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(post.structuredData),
-        }}
+        dangerouslySetInnerHTML={{ __html }}
       />
       <h1 className="font-bold text-2xl tracking-tighter max-w-[650px]">
         <Balancer>{post.title}</Balancer>
@@ -103,7 +76,7 @@ export default async function Blog({ params }) {
           {formatDate(post.publishedAt)}
         </p>
       </div>
-      <Mdx code={post.body.code} />
+      {/* <Mdx code={post.body.code} /> */}
     </section>
   );
 }

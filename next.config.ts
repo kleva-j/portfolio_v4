@@ -1,9 +1,10 @@
-const { get } = require("@vercel/edge-config");
-const { withContentlayer } = require("next-contentlayer");
+import type { NextConfig } from "next";
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  experimental: { serverActions: true },
+import remarkGfm from "remark-gfm";
+import createMDX from "@next/mdx";
+
+const nextConfig: NextConfig = {
+  pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
@@ -14,15 +15,21 @@ const nextConfig = {
       },
     ],
   },
-  redirects() {
-    try {
-      return get("redirects");
-    } catch {
-      return [];
-    }
+  async redirects() {
+    return [
+      {
+        source: "/blog/:slug*",
+        destination: "/post/:slug*", // Matched parameters can be used in the destination
+        permanent: true,
+      },
+    ];
   },
-  headers() {
+  async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
+  },
+  experimental: {
+    mdxRs: true,
+    viewTransition: true,
   },
 };
 
@@ -75,4 +82,24 @@ const securityHeaders = [
   },
 ];
 
-module.exports = withContentlayer(nextConfig);
+const withMDX = createMDX({
+  // Add markdown plugins here, as desired
+  extension: /\.(md|mdx)$/,
+  options: {
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [
+      ["rehype-slug", { strict: true, throwOnError: true }],
+      [
+        "rehype-autolink-headings",
+        {
+          behavior: "wrap",
+          properties: {
+            className: ["anchor"],
+          },
+        },
+      ],
+    ],
+  },
+});
+
+module.exports = withMDX(nextConfig);
