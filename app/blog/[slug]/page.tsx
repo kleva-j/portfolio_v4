@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 import { notFound } from "next/navigation";
-import { Mdx } from "app/components/mdx";
+// import { Mdx } from "app/components/mdx";
 import { formatDate } from "@/lib/utils";
-import { allPost } from "lib/constant";
+import { allPost } from "@/lib/constant";
 
 import Balancer from "react-wrap-balancer";
 
@@ -76,7 +76,7 @@ export default async function Blog(props: BlogMetadata) {
           {formatDate(post.publishedAt)}
         </p>
       </div>
-      <Mdx code={post.body.code} />
+      {/* <Mdx code={post.body.code} /> */}
     </section>
   );
 }

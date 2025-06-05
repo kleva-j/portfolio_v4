@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { Analytics } from "@vercel/analytics/react";
 
-import Sidebar from "@/app/components/sidebar";
+import Sidebar from "@/components/sidebar";
 import localFont from "next/font/local";
 import clsx from "clsx";
 
@@ -76,7 +76,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html
       lang="en"
       className={clsx(
-        "text-black bg-white dark:text-white dark:bg-[#111010]",
+        "text-black bg-white dark:text-white dark:bg-[#111010] font-[var(--font-graphik)]",
         graphik.variable
       )}
     >
@@ -84,7 +84,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
           <Sidebar />
           {children}
-          <Analytics />
+          {/* <Analytics /> */}
         </main>
       </body>
     </html>
