@@ -108,15 +108,15 @@ console.log(result); // Output: 2
 
 ### Limitations
 
-- Not efficient for large datasets
-- Not suitable for searching in unsorted arrays
-- Not recommended for production use
+- Only works on sorted arrays
+- Requires random access to elements (not suitable for linked lists)
+- May have worse performance than linear search for very small arrays due to overhead
 
 ---
 
 ### Conclusion
 
-Binary search is a simple and easy-to-implement search algorithm, but it is not the most efficient for large datasets. It is best used for small datasets or when the dataset is sorted.
+Binary search is a simple and efficient search algorithm that excels with large sorted datasets. It provides logarithmic time complexity, making it ideal for scenarios where fast lookup is required on sorted data.
 
 ---
 

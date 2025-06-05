@@ -9,7 +9,7 @@ import clsx from "clsx";
 const navItems = {
   "/": { name: "home" },
   "/post": { name: "post" },
-  "/guestbook": { name: "guestbook" },
+  "/snippets": { name: "snippets" },
 };
 
 export default function Navbar() {

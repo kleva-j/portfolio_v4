@@ -2,21 +2,20 @@ export function formatDate(date: string) {
   const currentDate = new Date();
   const targetDate = new Date(date);
 
-  const yearsAgo = currentDate.getFullYear() - targetDate.getFullYear();
-  const monthsAgo = currentDate.getMonth() - targetDate.getMonth();
-  const daysAgo = currentDate.getDate() - targetDate.getDate();
+  const diffTime = Math.abs(currentDate.getTime() - targetDate.getTime());
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-  let formattedDate = "";
+  const yearsAgo = Math.floor(diffDays / 365);
+  const monthsAgo = Math.floor(diffDays / 30);
 
-  if (yearsAgo > 0) {
-    formattedDate = `${yearsAgo}y ago`;
-  } else if (monthsAgo > 0) {
-    formattedDate = `${monthsAgo}mo ago`;
-  } else if (daysAgo > 0) {
-    formattedDate = `${daysAgo}d ago`;
-  } else {
-    formattedDate = "Today";
-  }
+  const formattedDate =
+    yearsAgo > 0
+      ? `${yearsAgo}y ago`
+      : monthsAgo > 0
+      ? `${monthsAgo}mo ago`
+      : diffDays > 0
+      ? `${diffDays}d ago`
+      : "Today";
 
   const fullDate = targetDate.toLocaleString("en-us", {
     month: "long",
