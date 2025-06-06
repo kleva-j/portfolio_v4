@@ -35,3 +35,8 @@ export function formatDate(date: string) {
 
   return `${fullDate} (${formattedDate})`;
 }
+
+export const DeploymentUrl =
+  process.env.NODE_ENV === "production"
+    ? process.env.VERCEL_URL
+    : process.env.SITE_URL;

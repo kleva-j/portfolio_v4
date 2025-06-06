@@ -1,3 +1,5 @@
+import { DeploymentUrl } from "../utils";
+
 export const siteConfig = {
   name: "Michael Obasi",
   description: "Developer, writer, and creator.",
@@ -14,9 +16,9 @@ export const siteConfig = {
   openGraph: {
     title: "Michael Obasi",
     description: "Developer, writer, and creator.",
-    url: "https://michaelobasi.dev",
+    url: DeploymentUrl,
     siteName: "Michael Obasi",
-    siteUrl: process.env.SITE_URL,
+    siteUrl: DeploymentUrl,
     locale: "en-US",
     type: "website",
   },
