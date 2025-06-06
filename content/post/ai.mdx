@@ -1,5 +1,4 @@
 import Image from "next/image";
-import embeddings from "./embeddings.jpg";
 
 export const metadata = {
   title: "Understanding AI",
@@ -125,7 +124,7 @@ Before processing, words are converted into numerical vectors called [**embeddin
 For example, the relationship between "king" and "queen" is similar to that of "man" and "woman". If you subtract the vector for "man" from "king" and add "woman", you get a result close to "queen".
 
 <div className="border border-gray-200 rounded-md p-4 bg-white">
-  <Image src={embeddings} alt="Word Embeddings" />
+  <Image src="/images/ai/embeddings.jpg" alt="Word Embeddings" width={1600} height={840} />
 </div>
 
 Transformers use **attention mechanisms**, specifically **self-attention**. While attention had been used in [previous papers](https://arxiv.org/abs/1409.0473) and models, it only read sequences word by word. Transformers can consider the _entire_ input sequence at once.

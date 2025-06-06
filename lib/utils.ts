@@ -35,3 +35,20 @@ export function formatDate(date: string) {
 
   return `${fullDate} (${formattedDate})`;
 }
+
+export const DeploymentUrl = (() => {
+  const url =
+    process.env.NODE_ENV === "production"
+      ? process.env.VERCEL_URL
+      : process.env.SITE_URL;
+
+  if (!url) {
+    throw new Error(
+      `Missing required environment variable: ${
+        process.env.NODE_ENV === "production" ? "VERCEL_URL" : "SITE_URL"
+      }`
+    );
+  }
+
+  return url;
+})();
