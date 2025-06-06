@@ -29,7 +29,8 @@ async function getPostSlugs(dir: string) {
     .filter((entry) => entry.isFile() && entry.name.endsWith(".mdx"))
     .map((entry) => {
       const joinedPath = path.join(entry.path, entry.name);
-      return path.relative(dir, joinedPath);
+      const relativePath = path.relative(dir, joinedPath);
+      return path.basename(relativePath, ".mdx");
     })
     .map((slug) => slug.replace(/\\/g, "/"));
 }
