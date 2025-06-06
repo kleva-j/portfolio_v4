@@ -16,6 +16,7 @@ export const siteConfig = {
     description: "Developer, writer, and creator.",
     url: "https://michaelobasi.dev",
     siteName: "Michael Obasi",
+    siteUrl: process.env.SITE_URL,
     locale: "en-US",
     type: "website",
   },

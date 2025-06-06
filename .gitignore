@@ -38,3 +38,7 @@ next-env.d.ts
 
 # contentlayer
 .contentlayer
+
+# Environment variables
+.env
+.env.local
