@@ -37,15 +37,15 @@ export function formatDate(date: string) {
 }
 
 export const DeploymentUrl = (() => {
-  const url =
-    process.env.NODE_ENV === "production"
-      ? process.env.VERCEL_URL
-      : process.env.SITE_URL;
+  const isProduction = process.env.NEXT_PUBLIC_VERCEL_ENV === "production";
+  const url = isProduction
+    ? process.env.NEXT_PUBLIC_VERCEL_URL
+    : process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
   if (!url) {
     throw new Error(
       `Missing required environment variable: ${
-        process.env.NODE_ENV === "production" ? "VERCEL_URL" : "SITE_URL"
+        isProduction ? "NEXT_PUBLIC_VERCEL_URL" : "NEXT_PUBLIC_SITE_URL"
       }`
     );
   }
