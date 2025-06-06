@@ -1,4 +1,4 @@
-import { siteConfig } from "@/lib/site/config";
+import { notFound } from "next/navigation";
 import { promises as fs } from "node:fs";
 
 import path from "node:path";
@@ -9,9 +9,14 @@ export interface PostPageProps {
 
 export default async function PostPage({ params }: PostPageProps) {
   const { slug } = await params;
-  const { default: Post } = await import(`@/content/post/${slug}.mdx`);
 
-  return <Post />;
+  try {
+    const { default: Post } = await import(`@/content/post/${slug}.mdx`);
+    return <Post />;
+  } catch (error) {
+    console.error(error);
+    return notFound();
+  }
 }
 
 async function getPostSlugs(dir: string) {
@@ -24,27 +29,17 @@ async function getPostSlugs(dir: string) {
     .filter((entry) => entry.isFile() && entry.name.endsWith(".mdx"))
     .map((entry) => {
       const joinedPath = path.join(entry.path, entry.name);
-      const relativePath = path.relative(dir, joinedPath);
-      return path.dirname(relativePath);
+      return path.relative(dir, joinedPath);
     })
     .map((slug) => slug.replace(/\\/g, "/"));
 }
 
-async function generateStaticPaths() {
+export async function generateStaticParams() {
   const postsDirectory = path.join(process.cwd(), "content", "post");
 
   const postsSlugs = await getPostSlugs(postsDirectory);
 
-  const posts = postsSlugs.map((slug) => ({
-    url: `${siteConfig.openGraph.siteUrl}/post/${slug}`,
-    lastModified: new Date().toISOString(),
-  }));
-
-  return posts;
-}
-
-export function generateStaticParams() {
-  return generateStaticPaths();
+  return postsSlugs.map((slug) => ({ params: { slug } }));
 }
 
 export const dynamicParams = false;

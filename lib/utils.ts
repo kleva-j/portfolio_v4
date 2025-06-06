@@ -39,4 +39,4 @@ export function formatDate(date: string) {
 export const DeploymentUrl =
   process.env.NODE_ENV === "production"
     ? process.env.VERCEL_URL
-    : process.env.SITE_URL;
+    : process.env.SITE_URL ?? "http://localhost:3000";

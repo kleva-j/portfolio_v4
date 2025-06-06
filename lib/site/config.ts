@@ -3,7 +3,7 @@ import { DeploymentUrl } from "../utils";
 export const siteConfig = {
   name: "Michael Obasi",
   description: "Developer, writer, and creator.",
-  url: "https://michaelobasi.dev",
+  url: DeploymentUrl,
   author: "Michael Obasi",
   github: "https://github.com/kleva-j",
   github_username: "kleva-j",
@@ -18,7 +18,6 @@ export const siteConfig = {
     description: "Developer, writer, and creator.",
     url: DeploymentUrl,
     siteName: "Michael Obasi",
-    siteUrl: DeploymentUrl,
     locale: "en-US",
     type: "website",
   },
