@@ -1,3 +1,17 @@
+export const metadata = {
+  title: "Binary Search",
+  description: "A brief overview on binary search.",
+  summary:
+    "A brief overview on binary search. I wanted to better understand how binary search works.",
+  alternates: {
+    canonical: "/post/binary-search",
+  },
+  publishedAt: "2025-06-04",
+  updatedAt: "2025-06-06",
+  readTime: 3,
+  image: "/images/video/banner.png",
+};
+
 ### About Binary Search
 
 Binary search is a search algorithm that finds the position of a target value within a sorted array. The algorithm repeatedly divides the search interval in half, comparing the target value to the middle element of the interval. If the target value matches the middle element, the search is complete. If the target value is less than the middle element, the search continues in the left half of the interval. If the target value is greater than the middle element, the search continues in the right half of the `interval`. The process repeats until the target value is found or the search interval is empty.
@@ -42,7 +56,7 @@ app/
 {/* <Description content="Binary Search Algorithm implementation in JS" /> */}
 
 ```ts server/jstack.ts {1,7}
-import { jstack } from 'jstack';
+import { jstack } from "jstack";
 
 interface Env {
   Bindings: { DATABASE_URL: string };
