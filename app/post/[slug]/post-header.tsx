@@ -16,7 +16,13 @@ export const PostHeader = ({ metadata }: { metadata: Post }) => {
 
       <div className="flex items-center justify-center gap-2 mb-4 divide-x-2 divide-gray-300 dark:divide-gray-700">
         <p className="text-[13px] text-gray-600 dark:text-gray-400 pr-2">
-          {format(new Date(metadata.publishedAt), "PP")}
+          {(() => {
+            try {
+              return format(new Date(metadata.publishedAt), "PP");
+            } catch {
+              return metadata.publishedAt; // Fallback to raw date string
+            }
+          })()}
         </p>
         <p className="text-[13px] text-gray-600 dark:text-gray-400 font-medium">
           {metadata.readTime} min read

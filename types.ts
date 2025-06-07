@@ -13,3 +13,8 @@ export interface Post {
   readTime: number;
   image?: string;
 }
+
+export type ExcludeFromArray<K extends unknown[], ToExclude> = Exclude<
+  K[number],
+  ToExclude
+>[];
