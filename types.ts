@@ -14,6 +14,8 @@ export interface Post {
   image?: string;
 }
 
+export type PostMetadata = Omit<Post, "slug">;
+
 export type ExcludeFromArray<K extends unknown[], ToExclude> = Exclude<
   K[number],
   ToExclude
