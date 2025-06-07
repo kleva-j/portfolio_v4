@@ -20,7 +20,7 @@ export const PostHeader = ({ metadata }: { metadata: Post }) => {
             try {
               return format(new Date(metadata.publishedAt), "PP");
             } catch {
-              return metadata.publishedAt; // Fallback to raw date string
+              return metadata.publishedAt?.toString() ?? "";
             }
           })()}
         </p>

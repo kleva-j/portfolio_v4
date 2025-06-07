@@ -8,9 +8,9 @@ export interface Post {
   summary: string;
   description: string;
   slug: string;
-  publishedAt: string;
-  updatedAt: string;
-  readTime: number;
+  publishedAt: Date | string;
+  updatedAt: Date | string;
+  readTime: number; // minutes
   image?: string;
 }
 
