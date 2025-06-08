@@ -1,10 +1,10 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-family-sans: var(--font-graphik), 'Inter', sans-serif;
+  --font-family-sans: var(--font-graphik), "Inter", sans-serif;
 }
 
 :root {
@@ -34,13 +34,13 @@
   /* Accent Colors */
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
-  --accent-class: oklch(71.90% 0.132 264.20);
+  --accent-class: oklch(71.9% 0.132 264.2);
   --accent-sign: oklch(85.61% 0.094 225.87);
   --accent-string: oklch(79.53% 0.139 130.14);
-  --accent-keyword: oklch(75.15% 0.134 299.50);
+  --accent-keyword: oklch(75.15% 0.134 299.5);
   --accent-comment: oklch(49.55% 0.068 274.37);
-  --accent-jsxliterals: oklch(71.90% 0.132 264.20);
-  --accent-property: oklch(82.17% 0.100 182.49);
+  --accent-jsxliterals: oklch(71.9% 0.132 264.2);
+  --accent-property: oklch(82.17% 0.1 182.49);
   --accent-entity: oklch(78.39% 0.106 75.43);
 
   --destructive: oklch(0.577 0.245 27.325);
@@ -65,6 +65,7 @@
 html {
   min-width: 360px;
   scrollbar-gutter: stable;
+  text-rendering: optimizeSpeed;
 }
 
 body {
@@ -97,7 +98,7 @@ pre {
 }
 
 code {
-  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  font-family: "Menlo", "Monaco", "Courier New", monospace;
   font-size: 14px;
   padding: 0.2em 0.4em;
   border-radius: 0.3em;
@@ -123,7 +124,7 @@ code:not(pre code) span {
 
 @media (prefers-color-scheme: dark) {
   code {
-    font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+    font-family: "Menlo", "Monaco", "Courier New", monospace;
     font-size: 14px;
     padding: 0.2em 0.4em;
     border-radius: 0.3em;
@@ -144,8 +145,8 @@ hr {
 }
 
 /* Remove Safari input shadow on mobile */
-input[type='text'],
-input[type='email'] {
+input[type="text"],
+input[type="email"] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -306,13 +307,13 @@ table {
   --muted-foreground: oklch(0.708 0 0);
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
-  --accent-class: oklch(71.90% 0.132 264.20);
+  --accent-class: oklch(71.9% 0.132 264.2);
   --accent-sign: oklch(85.61% 0.094 225.87);
   --accent-string: oklch(79.53% 0.139 130.14);
-  --accent-keyword: oklch(75.15% 0.134 299.50);
+  --accent-keyword: oklch(75.15% 0.134 299.5);
   --accent-comment: oklch(49.55% 0.068 274.37);
-  --accent-jsxliterals: oklch(71.90% 0.132 264.20);
-  --accent-property: oklch(82.17% 0.100 182.49);
+  --accent-jsxliterals: oklch(71.9% 0.132 264.2);
+  --accent-property: oklch(82.17% 0.1 182.49);
   --accent-entity: oklch(78.39% 0.106 75.43);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
