@@ -29,8 +29,6 @@ export default async function PostsPage({ searchParams }: PageProps) {
   const totalPages = Math.ceil(posts.length / limit);
   const offset = Math.max(currentPage - 1, 0) * limit;
 
-  console.log({ currentPage, posts, totalPages, offset });
-
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="text-center mb-12">

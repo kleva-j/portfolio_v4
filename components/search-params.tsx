@@ -1,9 +1,9 @@
-import { parseAsFloat, createLoader } from "nuqs/server";
+import { parseAsInteger, createLoader } from "nuqs/server";
 
 // Describe your search params, and reuse this in useQueryStates / createSerializer:
 export const createPaginationParams = {
-  page: parseAsFloat.withDefault(0),
-  limit: parseAsFloat.withDefault(10),
+  page: parseAsInteger.withDefault(0),
+  limit: parseAsInteger.withDefault(10),
 };
 
 export const loadPaginationParams = createLoader(createPaginationParams);
