@@ -1,5 +1,6 @@
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentProps, ComponentPropsWithoutRef } from "react";
 
+import { Separator } from "@/components/ui/separator";
 import { highlight } from "sugar-high";
 
 import Link from "next/link";
@@ -10,6 +11,10 @@ type ListProps = ComponentPropsWithoutRef<"ul">;
 type ListItemProps = ComponentPropsWithoutRef<"li">;
 type AnchorProps = ComponentPropsWithoutRef<"a">;
 type BlockquoteProps = ComponentPropsWithoutRef<"blockquote">;
+type SeparatorProps = ComponentPropsWithoutRef<"hr">;
+type EmProps = ComponentPropsWithoutRef<"em">;
+type StrongProps = ComponentPropsWithoutRef<"strong">;
+type CodeProps = ComponentPropsWithoutRef<"code">;
 
 const components = {
   h1: (props: HeadingProps) => (
@@ -44,12 +49,8 @@ const components = {
     />
   ),
   li: (props: ListItemProps) => <li className="pl-1" {...props} />,
-  em: (props: ComponentPropsWithoutRef<"em">) => (
-    <em className="font-medium" {...props} />
-  ),
-  strong: (props: ComponentPropsWithoutRef<"strong">) => (
-    <strong className="font-medium" {...props} />
-  ),
+  em: (props: EmProps) => <em className="font-medium" {...props} />,
+  strong: (props: StrongProps) => <strong className="font-medium" {...props} />,
   a: ({ href, children, ...props }: AnchorProps) => {
     const className =
       "text-blue-500 hover:text-blue-700 dark:text-gray-400 hover:dark:text-gray-300 dark:underline dark:underline-offset-2 dark:decoration-gray-800";
@@ -79,7 +80,7 @@ const components = {
       </a>
     );
   },
-  code: ({ children, ...props }: ComponentPropsWithoutRef<"code">) => {
+  code: ({ children, ...props }: CodeProps) => {
     const codeHTML = highlight(children as string);
     // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
     return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
@@ -110,6 +111,7 @@ const components = {
       {...props}
     />
   ),
+  hr: (props: SeparatorProps) => <Separator {...props} />,
 };
 
 declare global {

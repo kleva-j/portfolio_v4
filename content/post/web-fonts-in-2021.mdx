@@ -1,8 +1,16 @@
----
-title: 'Web Fonts in 2021'
-publishedAt: '2021-01-13'
-summary: 'Learn the best practices for high-performance sites using web fonts, updated for 2021.'
----
+export const metadata = {
+  title: "Web Fonts in 2021",
+  description:
+    "Learn the best practices for high-performance sites using web fonts, updated for 2021.",
+  summary:
+    "Learn the best practices for high-performance sites using web fonts, updated for 2021.",
+  alternates: {
+    canonical: "/post/web-fonts-in-2021",
+  },
+  publishedAt: "2021-01-13",
+  updatedAt: "2025-06-09",
+  readTime: 4,
+};
 
 Typography accounts for [95% of web design](https://ia.net/topics/the-web-is-all-about-typography-period/). Your font choice can be critical for branding, readability, and performance.
 
@@ -15,8 +23,8 @@ The fastest way to use a web font is none. Browsers include a set of [web-safe f
 Using web-safe fonts or the [system font stack](https://systemfontstack.com/) will be the fastest option.
 
 ```css
-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
-  sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+  sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 ```
 
 ## Why Use Web Fonts?
@@ -82,10 +90,10 @@ Browsers currently have a default strategy similar to `block`. The only option t
 
 ```css
 @font-face {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-display: optional;
-  src: url(/fonts/inter-var-latin.woff2) format('woff2');
+  src: url(/fonts/inter-var-latin.woff2) format("woff2");
 }
 ```
 
@@ -97,11 +105,11 @@ Browsers currently have a default strategy similar to `block`. The only option t
 
 ```css
 @font-face {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 100 900; // Range of weights supported
   font-display: optional;
-  src: url(/fonts/inter-var-latin.woff2) format('woff2');
+  src: url(/fonts/inter-var-latin.woff2) format("woff2");
 }
 ```
 
@@ -117,11 +125,11 @@ For example, we might use the Inter variable font and subset to latin languages.
 
 ```css
 @font-face {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 100 900; // Range of weights supported
   font-display: optional;
-  src: url(/fonts/inter-var-latin.woff2) format('woff2');
+  src: url(/fonts/inter-var-latin.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
     U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
     U+FEFF, U+FFFD;
