@@ -29,6 +29,22 @@ export default async function PostsPage({ searchParams }: PageProps) {
   const totalPages = Math.ceil(posts.length / limit);
   const offset = Math.max(currentPage - 1, 0) * limit;
 
+  if (posts.length === 0) {
+    return (
+      <div className="container mx-auto px-4 py-12">
+        <div className="text-center py-12">
+          <FilePlus className="size-12 mx-auto stroke-1 text-gray-600 dark:text-gray-400 mb-4" />
+          <h4 className="font-semibold text-gray-800 dark:text-gray-100">
+            No posts available
+          </h4>
+          <p className="text-gray-500 text-sm my-2 dark:text-gray-400">
+            Please check back later.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="text-center mb-12">
@@ -37,21 +53,9 @@ export default async function PostsPage({ searchParams }: PageProps) {
         </p>
       </div>
       <div className="flex flex-col gap-4">
-        {posts.length === 0 ? (
-          <div className="text-center py-12">
-            <FilePlus className="size-12 mx-auto stroke-1 text-gray-600 dark:text-gray-400 mb-4" />
-            <h4 className="font-semibold text-gray-800 dark:text-gray-100">
-              No posts available
-            </h4>
-            <p className="text-gray-500 text-sm my-2 dark:text-gray-400">
-              Please check back later.
-            </p>
-          </div>
-        ) : (
-          posts
-            .slice(offset, offset + limit)
-            .map((post) => <PostCard key={post.slug} post={post} />)
-        )}
+        {posts.slice(offset, offset + limit).map((post) => (
+          <PostCard key={post.slug} post={post} />
+        ))}
       </div>
 
       {totalPages > 1 && (
@@ -61,18 +65,14 @@ export default async function PostsPage({ searchParams }: PageProps) {
           <Pagination className="px-4">
             <PaginationContent className="w-full justify-between gap-3 pl-4 pr-1">
               <PaginationLink
-                href={
-                  currentPage === 1
-                    ? "#"
-                    : `/post?page=${Math.max(currentPage - 1, 1)}`
-                }
+                href={currentPage > 1 ? `/post?page=${currentPage - 1}` : "#"}
               >
                 <Button
                   variant="outline"
                   className="group aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
-                  role={currentPage === 1 ? "link" : undefined}
-                  aria-disabled={currentPage === 1}
-                  disabled={currentPage === 1}
+                  role={currentPage > 1 ? "link" : undefined}
+                  aria-disabled={currentPage <= 1}
+                  disabled={currentPage <= 1}
                 >
                   <ArrowLeftIcon
                     className="-ms-1 opacity-60 transition-transform group-hover:-translate-x-0.5"
@@ -84,17 +84,17 @@ export default async function PostsPage({ searchParams }: PageProps) {
               </PaginationLink>
               <PaginationLink
                 href={
-                  currentPage === totalPages
-                    ? "#"
-                    : `/post?page=${Math.min(currentPage + 1, totalPages)}`
+                  currentPage < totalPages
+                    ? `/post?page=${currentPage + 1}`
+                    : "#"
                 }
               >
                 <Button
                   variant="outline"
                   className="group aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
-                  role={currentPage === totalPages ? "link" : undefined}
-                  aria-disabled={currentPage === totalPages}
-                  disabled={currentPage === totalPages}
+                  role={currentPage < totalPages ? "link" : undefined}
+                  aria-disabled={currentPage >= totalPages}
+                  disabled={currentPage >= totalPages}
                 >
                   Next
                   <ArrowRightIcon

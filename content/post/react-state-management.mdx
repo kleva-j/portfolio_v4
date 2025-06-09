@@ -1,8 +1,19 @@
----
-title: 'Past, Present, and Future of React State Management'
-publishedAt: '2021-02-02'
-summary: 'Learn about the history of state management in React and what the preferred solutions are today.'
----
+import Image from "next/image";
+
+export const metadata = {
+  title: "Past, Present, and Future of React State Management",
+  description:
+    "Learn about the history of state management in React and what the preferred solutions are today.",
+  summary:
+    "Learn about the history of state management in React and what the preferred solutions are today.",
+  alternates: {
+    canonical: "/post/react-state-management",
+  },
+  publishedAt: "2021-02-02",
+  updatedAt: "2025-06-09",
+  readTime: 5,
+  image: "/images/javascript/edge-runtime.png",
+};
 
 React was introduced in May 2013. Its paradigm shift was that **your UI was a function of your state**. Given some component state, React can determine what your component will look like. React is _built_ upon the idea of state. However, state has long been one of the most difficult parts of building a React application.
 
@@ -92,10 +103,10 @@ Let's consider a switch statement. If the value of `state` matches any `case`, t
 
 ```jsx
 switch (state) {
-  case state === 'loading':
+  case state === "loading":
     // show loading spinner
     break;
-  case state === 'success':
+  case state === "success":
     // show success message
     break;
   default:

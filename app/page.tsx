@@ -95,7 +95,7 @@ async function BlogLink({ slug, name }) {
 
 export default async function Page() {
   return (
-    <section>
+    <section className="mt-30">
       <h1 className="font-bold text-2xl mb-8 tracking-tighter">
         hey, I'm leerob 👋
       </h1>
