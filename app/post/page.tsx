@@ -1,13 +1,35 @@
 import type { Post, PostMetadata } from "@/types";
+import type { SearchParams } from "nuqs/server";
 
+import { loadPaginationParams } from "@/components/search-params";
+import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import { PostCard } from "@/app/post/postcard";
 import { getPostSlugs } from "@/lib/post";
 import { FilePlus } from "lucide-react";
 
+import {
+  PaginationContent,
+  PaginationLink,
+  Pagination,
+} from "@/components/ui/pagination";
+
 import path from "node:path";
 
-export default async function PostsPage() {
+type PageProps = {
+  searchParams: Promise<SearchParams>;
+};
+
+export default async function PostsPage({ searchParams }: PageProps) {
   const posts: Post[] = await getPost();
+
+  const { page: currentPage, limit } = await loadPaginationParams(searchParams);
+
+  const totalPages = Math.ceil(posts.length / limit);
+  const offset = Math.max(currentPage - 1, 0) * limit;
+
+  console.log({ currentPage, posts, totalPages, offset });
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -16,7 +38,6 @@ export default async function PostsPage() {
           Explore my latest thoughts and insights on various topics.
         </p>
       </div>
-
       <div className="flex flex-col gap-4">
         {posts.length === 0 ? (
           <div className="text-center py-12">
@@ -29,9 +50,66 @@ export default async function PostsPage() {
             </p>
           </div>
         ) : (
-          posts.map((post) => <PostCard key={post.slug} post={post} />)
+          posts
+            .slice(offset, offset + limit)
+            .map((post) => <PostCard key={post.slug} post={post} />)
         )}
       </div>
+
+      {totalPages > 1 && (
+        <div className="mt-15 flex flex-col items-center gap-y-6">
+          <Separator />
+
+          <Pagination className="px-4">
+            <PaginationContent className="w-full justify-between gap-3 pl-4 pr-1">
+              <PaginationLink
+                href={
+                  currentPage === 1
+                    ? "#"
+                    : `/post?page=${Math.max(currentPage - 1, 1)}`
+                }
+              >
+                <Button
+                  variant="outline"
+                  className="group aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
+                  role={currentPage === 1 ? "link" : undefined}
+                  aria-disabled={currentPage === 1}
+                  disabled={currentPage === 1}
+                >
+                  <ArrowLeftIcon
+                    className="-ms-1 opacity-60 transition-transform group-hover:-translate-x-0.5"
+                    size={16}
+                    aria-hidden="true"
+                  />
+                  Previous
+                </Button>
+              </PaginationLink>
+              <PaginationLink
+                href={
+                  currentPage === totalPages
+                    ? "#"
+                    : `/post?page=${Math.min(currentPage + 1, totalPages)}`
+                }
+              >
+                <Button
+                  variant="outline"
+                  className="group aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
+                  role={currentPage === totalPages ? "link" : undefined}
+                  aria-disabled={currentPage === totalPages}
+                  disabled={currentPage === totalPages}
+                >
+                  Next
+                  <ArrowRightIcon
+                    className="-me-1 opacity-60 transition-transform group-hover:translate-x-0.5"
+                    size={16}
+                    aria-hidden="true"
+                  />
+                </Button>
+              </PaginationLink>
+            </PaginationContent>
+          </Pagination>
+        </div>
+      )}
     </div>
   );
 }

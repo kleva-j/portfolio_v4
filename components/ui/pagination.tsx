@@ -9,6 +9,8 @@ import {
   ChevronLeftIcon,
 } from "lucide-react";
 
+import Link from "next/link";
+
 function Pagination({ className, ...props }: ComponentProps<"nav">) {
   return (
     <nav
@@ -37,7 +39,7 @@ function PaginationItem({ ...props }: ComponentProps<"li">) {
 
 interface PaginationLinkProps
   extends Pick<ComponentProps<typeof Button>, "size">,
-    ComponentProps<"a"> {
+    ComponentProps<typeof Link> {
   isActive?: boolean;
 }
 
@@ -48,7 +50,7 @@ function PaginationLink({
   ...props
 }: PaginationLinkProps) {
   return (
-    <a
+    <Link
       aria-current={isActive ? "page" : undefined}
       data-slot="pagination-link"
       data-active={isActive}
