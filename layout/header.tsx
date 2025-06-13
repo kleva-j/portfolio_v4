@@ -21,8 +21,8 @@ export const Header = () => {
   }, []);
 
   return (
-    <header>
-      <nav className="fixed top-5 max-w-2xl z-20 px-2 w-full">
+    <header className="h-20">
+      <nav className="fixed top-5 inset-x-0 max-w-2xl z-20 px-2 w-full mx-auto">
         <div
           className={cn(
             "mx-auto px-6 transition-all duration-300 lg:px-12",

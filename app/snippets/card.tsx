@@ -24,7 +24,7 @@ export interface CardProps extends Omit<Snippet, "image"> {
 }
 
 export function Card(props: CardProps) {
-  const { title, subtitle, image, snippetCount, badge, href } = props;
+  const { title, image, snippetCount, badge, href } = props;
 
   return (
     <Link
@@ -49,14 +49,14 @@ export function Card(props: CardProps) {
             alt={title}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover group-hover:scale-120 transition-transform origin-top duration-500 ease-out"
+            className="object-cover group-hover:scale-110 transition-transform origin-top duration-500 ease-out"
           />
         </div>
 
         <div
           className={cn(
             "absolute inset-0",
-            "bg-linear-to-t from-black/90 via-black/40 to-transparent"
+            "bg-gradient-to-t from-black/90 via-black/40 to-transparent"
           )}
         />
 
@@ -81,9 +81,6 @@ export function Card(props: CardProps) {
               <h3 className="text-lg font-semibold text-white dark:text-zinc-100 leading-snug tracking-tighter">
                 {title}
               </h3>
-              <p className="text-sm text-muted-foreground line-clamp-2 tracking-tight">
-                {subtitle}
-              </p>
             </div>
             <div
               className={cn(

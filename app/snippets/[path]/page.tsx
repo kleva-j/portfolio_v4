@@ -41,7 +41,9 @@ export default async function SnippetPage({ params }: SnippetPageProps) {
         <p className="text-center text-sm my-2 text-muted-foreground">
           {metadata.subtitle}
         </p>
-        <Badge className="mx-auto rounded-full">{metadata.snippetCount} Snippets</Badge>
+        <Badge className="mx-auto rounded-full">
+          {metadata.snippetCount} Snippets
+        </Badge>
         <Snippet />
       </div>
     );
@@ -53,7 +55,7 @@ export default async function SnippetPage({ params }: SnippetPageProps) {
 
 export async function generateStaticParams() {
   const slugs = await getPostSlugs(directory);
-  return slugs.map((slug) => ({ params: { slug } }));
+  return slugs.map((slug) => ({ params: { path: slug } }));
 }
 
 export const dynamicParams = false;

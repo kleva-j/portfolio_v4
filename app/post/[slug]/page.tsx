@@ -5,15 +5,13 @@ import { getPostSlugs } from "@/lib/post";
 import path from "node:path";
 
 export interface PostPageProps {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }
 
 export default async function PostPage({ params }: PostPageProps) {
-  const { slug } = await params;
-
   try {
     const { default: Post, metadata } = await import(
-      `@/content/post/${slug}.mdx`
+      `@/content/post/${params.slug}.mdx`
     );
     return (
       <div className="flex flex-col gap-2 mt-16">

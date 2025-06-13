@@ -13,7 +13,12 @@ export type SnippetWrapperProps = PropsWithChildren & {
 
 export const SnippetWrapper = (props: SnippetWrapperProps) => {
   return (
-    <Card className={cn("flex flex-col gap-2 my-4 px-4 rounded-sm shadow-none", props.className)}>
+    <Card
+      className={cn(
+        "flex flex-col gap-2 my-4 px-4 pb-0 rounded-sm shadow-none",
+        props.className
+      )}
+    >
       <h1 className="text-2xl font-bold">{props.title}</h1>
       <p className="text-muted-foreground text-sm">{props.description}</p>
       <div className="flex gap-2 items-center text-sm">
