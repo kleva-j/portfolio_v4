@@ -42,4 +42,4 @@ export const snippets = [
     href: "/snippets/python",
     snippetCount: 1,
   },
-] as Snippet[];
+] satisfies Snippet[];

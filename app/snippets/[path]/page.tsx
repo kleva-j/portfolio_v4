@@ -55,7 +55,7 @@ export default async function SnippetPage({ params }: SnippetPageProps) {
 
 export async function generateStaticParams() {
   const slugs = await getPostSlugs(directory);
-  return slugs.map((slug) => ({ params: { path: slug } }));
+  return slugs.map((slug) => ({ path: slug }));
 }
 
 export const dynamicParams = false;

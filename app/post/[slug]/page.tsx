@@ -33,7 +33,7 @@ export async function generateStaticParams() {
 
   const postsSlugs = await getPostSlugs(postsDirectory);
 
-  return postsSlugs.map((slug) => ({ params: { slug } }));
+  return postsSlugs.map((slug) => ({ slug }));
 }
 
 export const dynamicParams = false;
