@@ -69,6 +69,13 @@ async function getSnippets() {
   const snippets = await Promise.all(
     snippetsSlugs.map(async (slug: string) => {
       try {
+        // Validate slug format to prevent path traversal attacks
+        const slugRegex = /^[a-z0-9-_]+$/;
+        if (!slugRegex.test(slug)) {
+          console.error(`Invalid slug format: ${slug}`);
+          return null;
+        }
+
         const { metadata } = (await import(
           `@/content/snippets/${slug}.mdx`
         )) as { metadata: SnippetMetadata };
