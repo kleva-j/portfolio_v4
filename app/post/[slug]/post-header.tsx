@@ -6,11 +6,11 @@ import Image from "next/image";
 
 export const PostHeader = ({ metadata }: { metadata: Post }) => {
   return (
-    <div className="text-center">
+    <div data-slot="post-header" className="text-center">
       <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100">
         {metadata.title}
       </h1>
-      <p className="text-gray-600 dark:text-gray-400 mt-4 mb-2">
+      <p className="text-gray-600 dark:text-gray-400 mt-4 mb-2 max-w-lg mx-auto">
         {metadata.description}
       </p>
 

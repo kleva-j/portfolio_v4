@@ -1,4 +1,4 @@
-import type { ComponentProps, ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 
 import { Separator } from "@/components/ui/separator";
 import { highlight } from "sugar-high";

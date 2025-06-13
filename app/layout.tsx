@@ -1,6 +1,7 @@
 import type { PropsWithChildren } from "react";
 import type { Metadata } from "next";
 
+import { unstable_ViewTransition as ViewTransition } from "react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { siteConfig } from "@/lib/site/config";
 import { Header } from "@/layout/header";
@@ -19,12 +20,14 @@ export default function RootLayout({ children }: PropsWithChildren) {
           enableSystem
           disableTransitionOnChange
         >
-          <section className="max-w-2xl mb-40 flex flex-col md:flex-row mx-4 mt-8 lg:mx-auto">
-            <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
-              <Header />
-              {children}
-            </main>
-          </section>
+          <ViewTransition>
+            <Header />
+            <section className="max-w-2xl mb-40 flex flex-col md:flex-row mx-4 lg:mx-auto">
+              <main className="flex-auto min-w-0 flex flex-col px-2 md:px-0">
+                {children}
+              </main>
+            </section>
+          </ViewTransition>
         </ThemeProvider>
       </body>
     </html>

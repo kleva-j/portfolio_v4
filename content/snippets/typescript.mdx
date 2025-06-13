@@ -1,0 +1,158 @@
+import { SnippetWrapper, Text } from "@/components/snippet";
+import { Separator } from "@/components/ui/separator";
+
+export const metadata = {
+  title: "TypeScript Snippets",
+  subtitle:
+    "These TypeScript snippets range from picking properties from an interface to removing falsy values. We made sure to offer all useful TypeScript code snippets.",
+  image: "/images/snippets/typescript.jpeg",
+  snippetCount: 14,
+};
+
+<div className="my-24 text-center text-gray-600 dark:text-gray-400 text-base">
+
+This collection of TypeScript examples is aimed at helping you perform common TypeScript and JavaScript operations. No matter your experience level, from beginner to advanced, the following TypeScript code samples will be useful for all developers.
+
+</div>
+
+<SnippetWrapper title="Pick" description="Pick properties from an interface" tags={["Typescript", "Snippet"]} className="mt-4" countValue={1}>
+```typescript
+type Pick<T, K extends keyof T> = {
+  [P in K]: T[P];
+};
+```
+</SnippetWrapper>
+
+<SnippetWrapper title="Omit" description="Omit properties from an interface" tags={["Typescript", "Snippet"]} className="mt-4" countValue={2}>
+```typescript
+type Omit<T, K extends keyof T> = {
+  [P in Exclude<keyof T, K>]: T[P];
+};
+```
+</SnippetWrapper>
+
+<SnippetWrapper title="Partial" description="Partial properties from an interface" tags={["Typescript", "Snippet"]} className="mt-4" countValue={3}>
+```typescript
+type Partial<T> = {
+  [P in keyof T]?: T[P];
+};
+```
+</SnippetWrapper>
+
+<SnippetWrapper title="Required" description="Required properties from an interface" tags={["Typescript", "Snippet"]} className="mt-4" countValue={4}>
+```typescript
+type Required<T> = {
+  [P in keyof T]-?: T[P];
+};
+```
+</SnippetWrapper>
+
+<SnippetWrapper title="Readonly" description="Readonly properties from an interface" tags={["Typescript", "Snippet"]} className="mt-4" countValue={5}>
+```typescript
+type Readonly<T> = {
+  readonly [P in keyof T]: T[P];
+};
+```
+</SnippetWrapper>
+
+<SnippetWrapper title="Record" description="Record properties from an interface" tags={["Typescript", "Snippet"]} className="mt-4" countValue={6}>
+```typescript
+type Record<K extends keyof any, T> = {
+  [P in K]: T;
+};
+```
+</SnippetWrapper>
+
+<SnippetWrapper title="Extract" description="Extract properties from an interface" tags={["Typescript", "Snippet"]} className="mt-4" countValue={7}>
+```typescript
+type Extract<T, U> = T extends U ? T : never;
+```
+</SnippetWrapper>
+
+<SnippetWrapper title="Exclude" description="Exclude properties from an interface" tags={["Typescript", "Snippet"]} className="mt-4" countValue={8}>
+```typescript
+type Exclude<T, U> = T extends U ? never : T;
+```
+</SnippetWrapper>
+
+<SnippetWrapper title="NonNullable" description="NonNullable properties from an interface" tags={["Typescript", "Snippet"]} className="mt-4" countValue={9}>
+```typescript
+type NonNullable<T> = T extends null | undefined ? never : T;
+```
+</SnippetWrapper>
+
+<SnippetWrapper title="ReturnType" description="ReturnType properties from an interface" tags={["Typescript", "Snippet"]} className="mt-4" countValue={10}>
+```typescript
+type ReturnType<T extends (...args: any) => any> = T extends (
+  ...args: any
+) => infer R ? R : any;
+```
+</SnippetWrapper>
+
+<SnippetWrapper title="InstanceType" description="InstanceType properties from an interface" tags={["Typescript", "Snippet"]} className="mt-4" countValue={11}>
+```typescript
+type InstanceType<T extends new (...args: any) => any> = T extends new (
+  ...args: any
+) => infer R ? R : any;
+```
+</SnippetWrapper>
+
+<SnippetWrapper title="Parameters" description="Parameters properties from an interface" tags={["Typescript", "Snippet"]} className="mt-4" countValue={12}>
+```typescript
+type Parameters<T extends (...args: any) => any> = T extends (
+  ...args: infer P
+) => any ? P : never;
+```
+</SnippetWrapper>
+
+<SnippetWrapper title="ConstructorParameters" description="ConstructorParameters properties from an interface" tags={["Typescript", "Snippet"]} className="mt-4" countValue={13}>
+```typescript
+type ConstructorParameters<T extends new (...args: any) => any> = T extends new (
+  ...args: infer P
+) => any ? P : never;
+```
+</SnippetWrapper>
+
+<SnippetWrapper title="CreateAPIMethod" description="Create an API method" tags={["Typescript", "fetch", "API", "Snippet"]} className="mt-4" countValue={14}>
+```typescript
+export const get = async (
+  url: string,
+  input: Record<string, string>
+) => {
+  return fetch(
+    `${url}?${new URLSearchParams(input).toString()}`
+  );
+};
+
+export const post = async (url: string, input: Record<string, string>) => {
+  return fetch(url, {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+};
+
+type CreateAPIMethod = <
+  TInput extends Record<string, string>,
+  TOutput
+>(opts: { url: string; method: "GET" | "POST" }) => (input: TInput) => Promise<TOutput>;
+
+const createAPIMethod: CreateAPIMethod = (opts) => (input) => {
+  const method = opts.method === "GET" ? get : post;
+
+  return method(opts.url, input).then((res) => res.json())
+};
+
+/*
+- You can reuse this function as many times as you
+- like to create all your API methods!
+*/
+const getUser = createAPIMethod<
+  { id: string }, // The input
+  { name: string } // The output
+>({ method: "GET", url: "/user" });
+
+getUser({ id: 123 }); // Throws type error <id is not of type string>
+
+getUser({ id: "123" }); // Works!
+```
+</SnippetWrapper>

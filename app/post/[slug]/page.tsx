@@ -1,7 +1,6 @@
 import { PostHeader } from "@/app/post/[slug]/post-header";
 import { notFound } from "next/navigation";
 import { getPostSlugs } from "@/lib/post";
-import { Fragment } from "react";
 
 import path from "node:path";
 
@@ -10,17 +9,18 @@ export interface PostPageProps {
 }
 
 export default async function PostPage({ params }: PostPageProps) {
-  const { slug } = await params;
-
   try {
+    const { slug } = await params;
     const { default: Post, metadata } = await import(
       `@/content/post/${slug}.mdx`
     );
     return (
-      <Fragment>
+      <div className="flex flex-col gap-2 mt-16">
         <PostHeader metadata={metadata} />
-        <Post />
-      </Fragment>
+        <div data-slot="post-content">
+          <Post />
+        </div>
+      </div>
     );
   } catch (error) {
     console.error(error);
@@ -33,7 +33,7 @@ export async function generateStaticParams() {
 
   const postsSlugs = await getPostSlugs(postsDirectory);
 
-  return postsSlugs.map((slug) => ({ params: { slug } }));
+  return postsSlugs.map((slug) => ({ slug }));
 }
 
 export const dynamicParams = false;
