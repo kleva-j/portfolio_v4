@@ -15,45 +15,50 @@ type SeparatorProps = ComponentPropsWithoutRef<"hr">;
 type EmProps = ComponentPropsWithoutRef<"em">;
 type StrongProps = ComponentPropsWithoutRef<"strong">;
 type CodeProps = ComponentPropsWithoutRef<"code">;
+type SmallProps = ComponentPropsWithoutRef<"small">;
 
 const components = {
   h1: (props: HeadingProps) => (
-    <h1 className="font-medium pt-12 mb-0" {...props} />
+    <h1 className="font-semibold pt-12 mb-0" {...props} />
   ),
   h2: (props: HeadingProps) => (
     <h2
-      className="text-gray-800 dark:text-zinc-200 font-medium mt-8 mb-3"
+      className="text-gray-900 dark:text-zinc-100 font-semibold mt-8 mb-3"
       {...props}
     />
   ),
   h3: (props: HeadingProps) => (
     <h3
-      className="text-gray-800 dark:text-zinc-200 font-medium mt-8 mb-3"
+      className="text-gray-900 dark:text-zinc-100 font-semibold mt-8 mb-3"
       {...props}
     />
   ),
   h4: (props: HeadingProps) => <h4 className="font-medium" {...props} />,
   p: (props: ParagraphProps) => (
-    <p className="text-gray-800 dark:text-zinc-300 leading-snug" {...props} />
+    <p
+      className="text-gray-700 dark:text-zinc-400 leading-relaxed mt-4 mb-6"
+      {...props}
+    />
   ),
   ol: (props: ListProps) => (
     <ol
-      className="text-gray-800 dark:text-zinc-300 list-decimal pl-5 space-y-2"
+      className="text-gray-800 dark:text-zinc-300 list-decimal marker:text-blue-500 pl-5 space-y-2 my-6"
       {...props}
     />
   ),
   ul: (props: ListProps) => (
     <ul
-      className="text-gray-800 dark:text-zinc-300 list-disc pl-5 space-y-1"
+      className="text-gray-800 dark:text-zinc-300 list-none pl-5 space-y-1 my-6 [&_li]:relative [&_li]:before:content-['➾'] [&_li]:before:absolute [&_li]:before:-left-4 [&_li]:before:top-[1.5px] [&_li]:before:text-blue-500 [&_li]:pl-3"
       {...props}
     />
   ),
   li: (props: ListItemProps) => <li className="pl-1" {...props} />,
   em: (props: EmProps) => <em className="font-medium" {...props} />,
   strong: (props: StrongProps) => <strong className="font-medium" {...props} />,
+  small: (props: SmallProps) => <small {...props} />,
   a: ({ href, children, ...props }: AnchorProps) => {
     const className =
-      "text-blue-500 hover:text-blue-700 dark:text-gray-400 hover:dark:text-gray-300 dark:underline dark:underline-offset-2 dark:decoration-gray-800";
+      "text-blue-500 hover:text-blue-700 dark:text-sky-400 hover:dark:text-sky-300 dark:underline dark:underline-offset-2 dark:decoration-gray-800";
     if (href?.startsWith("/")) {
       return (
         <Link href={href} className={className} {...props}>
@@ -85,7 +90,7 @@ const components = {
     // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
     return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
   },
-  Table: ({ data }: { data: { headers: string[]; rows: string[][] } }) => (
+  table: ({ data }: { data: { headers: string[]; rows: string[][] } }) => (
     <table>
       <thead>
         <tr>
@@ -107,7 +112,7 @@ const components = {
   ),
   blockquote: (props: BlockquoteProps) => (
     <blockquote
-      className="ml-[0.075em] border-l-3 border-gray-300 pl-4 text-gray-700 dark:border-zinc-600 dark:text-zinc-300"
+      className="ml-[0.075em] border-l-3 border-blue-300 pl-4 text-gray-700 dark:border-blue-600 dark:text-zinc-300"
       {...props}
     />
   ),

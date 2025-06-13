@@ -127,12 +127,16 @@ code:not(pre code) span {
     font-family: "Menlo", "Monaco", "Courier New", monospace;
     font-size: 14px;
     padding: 0.2em 0.4em;
-    border-radius: 0.3em;
-    background-color: var(--color-zinc-800);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-blue-300);
+    background-color: transparent;
   }
 
   code:not(pre code) span {
-    color: var(--color-zinc-100) !important;
+    background-color: transparent;
+    font-weight: var(--font-weight-light);
+    font-size: var(--font-size-xs);
+    color: var(--color-blue-500) !important;
   }
 }
 
@@ -160,14 +164,14 @@ table {
 }
 
 .transition-element {
-  view-transition-name: lee;
+  view-transition-name: page;
 }
 
-::view-transition-old(lee) {
+::view-transition-old(page) {
   animation: fade-out 0.8s ease-in-out;
 }
 
-::view-transition-new(lee) {
+::view-transition-new(page) {
   animation: fade-in-up 0.4s ease-in-out;
 }
 

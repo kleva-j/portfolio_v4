@@ -16,8 +16,6 @@ export const metadata = {
 
 Binary search is a search algorithm that finds the position of a target value within a sorted array. The algorithm repeatedly divides the search interval in half, comparing the target value to the middle element of the interval. If the target value matches the middle element, the search is complete. If the target value is less than the middle element, the search continues in the left half of the interval. If the target value is greater than the middle element, the search continues in the right half of the `interval`. The process repeats until the target value is found or the search interval is empty.
 
----
-
 ### Implementation
 
 ```ts app/page.tsx
@@ -85,14 +83,12 @@ const post = await res.json();
 npx wrangler deploy server/index.ts
 ```
 
----
 
 ### Analysis
 
 - Time Complexity: O(log n)
 - Space Complexity: O(1)
 
----
 
 ### Example
 
@@ -103,7 +99,6 @@ const result = binarySearch(arr, target);
 console.log(result); // Output: 2
 ```
 
----
 
 ### Applications
 
@@ -111,7 +106,6 @@ console.log(result); // Output: 2
 - Finding the index of a target element
 - Implementing a binary search algorithm
 
----
 
 ### Limitations
 
@@ -119,13 +113,11 @@ console.log(result); // Output: 2
 - Requires random access to elements (not suitable for linked lists)
 - May have worse performance than linear search for very small arrays due to overhead
 
----
 
 ### Conclusion
 
 Binary search is a simple and efficient search algorithm that excels with large sorted datasets. It provides logarithmic time complexity, making it ideal for scenarios where fast lookup is required on sorted data.
 
----
 
 ### References
 
