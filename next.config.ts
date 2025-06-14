@@ -28,7 +28,11 @@ const nextConfig: NextConfig = {
     return [{ source: "/(.*)", headers: securityHeaders }];
   },
   experimental: {
-    mdxRs: true,
+    mdxRs: {
+      jsxRuntime: "automatic",
+      jsxImportSource: "react",
+      mdxType: "gfm",
+    },
     viewTransition: true,
   },
 };
