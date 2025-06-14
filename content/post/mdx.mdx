@@ -1,8 +1,16 @@
----
-title: 'Improving My Next.js MDX Blog'
-publishedAt: '2020-03-29'
-summary: 'I revamped my personal site, adding a variety of improvements for the ideal Next.js + MDX blogging experience.'
----
+export const metadata = {
+  title: "Improving My Next.js MDX Blog",
+  description:
+    "I revamped my personal site, adding a variety of improvements for the ideal Next.js + MDX blogging experience.",
+  summary:
+    "I revamped my personal site, adding a variety of improvements for the ideal Next.js + MDX blogging experience.",
+  alternates: {
+    canonical: "/post/mdx",
+  },
+  publishedAt: "2020-03-29",
+  updatedAt: "2025-06-14",
+  readTime: 5,
+};
 
 I recently decided to redesign and revamp my site. I had a few main goals:
 
@@ -106,15 +114,15 @@ Previously, I maintained a JSON file containing all my articles.
 ```js title="data/articles.json"
 export default [
   {
-    date: 'February 24, 2020',
-    slug: 'fetching-data-with-swr',
+    date: "February 24, 2020",
+    slug: "fetching-data-with-swr",
     title:
-      'Create a Dashboard with Next.js API Routes - Fetching Data with SWR',
+      "Create a Dashboard with Next.js API Routes - Fetching Data with SWR",
   },
   {
-    date: 'February 18, 2020',
-    slug: 'google-analytics-api-nextjs',
-    title: 'Create a Dashboard with Next.js API Routes - Google Analytics API',
+    date: "February 18, 2020",
+    slug: "google-analytics-api-nextjs",
+    title: "Create a Dashboard with Next.js API Routes - Google Analytics API",
   },
 ];
 ```
@@ -127,11 +135,11 @@ Every time I added a new article, I had to change two places.
 
 ```js
 export const meta = {
-  date: '2019-12-26',
-  description: 'Highlights and reflections on 2019 and a look forward to 2020.',
-  image: '/images/2019/banner.jpg',
-  slug: '2019',
-  title: '2019 Year in Review',
+  date: "2019-12-26",
+  description: "Highlights and reflections on 2019 and a look forward to 2020.",
+  image: "/images/2019/banner.jpg",
+  slug: "2019",
+  title: "2019 Year in Review",
 };
 
 export default ({ children }) => <Post meta={meta}>{children}</Post>;
@@ -140,22 +148,22 @@ export default ({ children }) => <Post meta={meta}>{children}</Post>;
 I decided to use Markdown front matter instead. Now, each `.mdx` file has a top section like this:
 
 ```js
-title: '2019 Year in Review';
-publishedAt: '2019-12-26';
-summary: 'Highlights and reflections on 2019 and a look forward to 2020.';
-image: '/images/2019/banner.jpg';
+title: "2019 Year in Review";
+publishedAt: "2019-12-26";
+summary: "Highlights and reflections on 2019 and a look forward to 2020.";
+image: "/images/2019/banner.jpg";
 ```
 
 Now, I can use native Next.js functionality like `getStaticProps` and `getStaticPaths` to fetch my MDX content:
 
 ```js title="pages/blog/[slug].js"
 export async function getStaticPaths() {
-  const posts = await getFiles('blog');
+  const posts = await getFiles("blog");
 
   return {
     paths: posts.map((p) => ({
       params: {
-        slug: p.replace(/\.mdx/, ''),
+        slug: p.replace(/\.mdx/, ""),
       },
     })),
     fallback: false,
@@ -163,7 +171,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const post = await getFileBySlug('blog', params.slug);
+  const post = await getFileBySlug("blog", params.slug);
 
   return { props: { ...post } };
 }
@@ -181,20 +189,20 @@ export async function getStaticProps({ params }) {
 - [rehype-prism-plus](https://github.com/timlrx/rehype-prism-plus)
 
 ```js title="lib/mdx.js"
-import { join } from 'path';
-import { readFileSync } from 'fs';
-import { bundleMDX } from 'mdx-bundler';
-import readingTime from 'reading-time';
+import { join } from "path";
+import { readFileSync } from "fs";
+import { bundleMDX } from "mdx-bundler";
+import readingTime from "reading-time";
 
-import rehypeSlug from 'rehype-slug';
-import rehypeCodeTitles from 'rehype-code-titles';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import rehypePrism from 'rehype-prism-plus';
+import rehypeSlug from "rehype-slug";
+import rehypeCodeTitles from "rehype-code-titles";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypePrism from "rehype-prism-plus";
 
 export async function getFileBySlug(type, slug) {
   const source = readFileSync(
-    join(process.cwd(), 'data', type, `${slug}.mdx`),
-    'utf8'
+    join(process.cwd(), "data", type, `${slug}.mdx`),
+    "utf8"
   );
   const { code, frontmatter } = await bundleMDX(source, {
     xdmOptions(options) {
@@ -207,7 +215,7 @@ export async function getFileBySlug(type, slug) {
           rehypeAutolinkHeadings,
           {
             properties: {
-              className: ['anchor'],
+              className: ["anchor"],
             },
           },
         ],
@@ -243,8 +251,8 @@ Instead, I switched to [rehype-prism-plus](https://github.com/Val-istar-Guo/rehy
 and created two prism themes for dark/light mode. `rehype-prism-plus` also adds line highlighting capabilities 🎉
 
 ```js title="styles/prism.js"
-import { css } from '@emotion/react';
-import { theme } from '@chakra-ui/react';
+import { css } from "@emotion/react";
+import { theme } from "@chakra-ui/react";
 
 const prismBaseTheme = css`
   // Base styling

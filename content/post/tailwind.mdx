@@ -1,8 +1,16 @@
----
-title: 'Switching to Tailwind CSS'
-publishedAt: '2020-12-14'
-summary: 'Learn why I switched my Next.js blog to use Tailwind CSS and how it impacted performance.'
----
+export const metadata = {
+  title: "Switching to Tailwind CSS",
+  description:
+    "Learn why I switched my Next.js blog to use Tailwind CSS and how it impacted performance.",
+  summary:
+    "Learn why I switched my Next.js blog to use Tailwind CSS and how it impacted performance.",
+  alternates: {
+    canonical: "/post/tailwind",
+  },
+  publishedAt: "2020-12-14",
+  updatedAt: "2025-06-14",
+  readTime: 5,
+};
 
 My site is an opportunity to try new tech and form opinions on what I enjoy using. I learn best by building real things. After some evaluation, I've landed on the following tech stack:
 
@@ -30,7 +38,7 @@ I wanted to avoid using the `height` and `width` props of `next/image`, if possi
 This meant switching from Markdown image syntax (shown above) to using `next/image` via MDX. Since I had hundreds of Markdown files, I wanted to automate this. I created a [Node script using remark](https://github.com/leerob/leerob.io/blob/fb9c02b76128d91717a226e5c118b5c56e11696e/scripts/markdown-to-next-image.js) that transformed every image and read the dimensions from the file system. For example, the above Markdown image was transformed to:
 
 ```jsx
-<Image alt="Siamese Cat" src="/cat.png" height={50} width={50} />
+<Image alt="Siamese Cat" src="/cat.png" height={50} width={50} className="mx-auto my-8" />
 ```
 
 ### Tailwind CSS
@@ -113,6 +121,7 @@ This change, paired with `next/image`, has my [Vercel Analytics](https://vercel.
   src={`/images/tailwind/analytics.jpg`}
   width={1000}
   height={782}
+  className="mx-auto my-8"
 />
 
 ### MDX

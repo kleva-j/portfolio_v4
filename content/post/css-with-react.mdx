@@ -1,8 +1,16 @@
----
-title: 'How Should I Style My React Application?'
-publishedAt: '2020-09-14'
-summary: 'Learn how CSS has evolved and explore pros and cons of different styling solutions for React.'
----
+export const metadata = {
+  title: "How Should I Style My React Application?",
+  description:
+    "Learn how CSS has evolved and explore pros and cons of different styling solutions for React.",
+  summary:
+    "Learn how CSS has evolved and explore pros and cons of different styling solutions for React.",
+  alternates: {
+    canonical: "/post/css-with-react",
+  },
+  publishedAt: "2020-09-14",
+  updatedAt: "2025-06-14",
+  readTime: 5,
+};
 
 React attempts to be as unopinionated as possible. This is both it's greatest strength _and_ weakness.
 
@@ -53,7 +61,7 @@ body {
 ```
 
 ```scss title="_header.scss"
-@use 'base';
+@use "base";
 
 .header {
   font-size: 32px;
@@ -171,11 +179,11 @@ It also sets up [autoprefixer](https://css-tricks.com/autoprefixer/) making CSS 
 <ProsCard
   title="CSS modules"
   pros={[
-    'You want class names scoped to the corresponding component.',
-    'You want to use CSS variables to reuse values.',
-    'You need your application to work without JavaScript.',
-    'You want the lowest barrier to entry.',
-    'You want to use any language, not just JavaScript.',
+    "You want class names scoped to the corresponding component.",
+    "You want to use CSS variables to reuse values.",
+    "You need your application to work without JavaScript.",
+    "You want the lowest barrier to entry.",
+    "You want to use any language, not just JavaScript.",
   ]}
 />
 
@@ -183,8 +191,8 @@ It also sets up [autoprefixer](https://css-tricks.com/autoprefixer/) making CSS 
   title="CSS modules"
   cons={[
     `You don't want to configure a toolchain like Webpack.`,
-    'You need to distribute a package on NPM.',
-    'You want nesting support by default (requires PostCSS).',
+    "You need to distribute a package on NPM.",
+    "You want nesting support by default (requires PostCSS).",
     `You don't want to context switch between files.`,
   ]}
 />
@@ -199,10 +207,10 @@ To see comparisons between different libraries, see [CSS-in-JS benchmarks.](http
 <ProsCard
   title="CSS-in-JS"
   pros={[
-    'You want to distribute as reusable components on NPM.',
-    'You want to take advantage of anything in the JavaScript ecosystem.',
-    'You want to colocate styles with components, making it easy to delete code.',
-    'You need to support multiple themes.',
+    "You want to distribute as reusable components on NPM.",
+    "You want to take advantage of anything in the JavaScript ecosystem.",
+    "You want to colocate styles with components, making it easy to delete code.",
+    "You need to support multiple themes.",
   ]}
 />
 
@@ -210,8 +218,8 @@ To see comparisons between different libraries, see [CSS-in-JS benchmarks.](http
   title="CSS-in-JS"
   cons={[
     `You don't want to configure a toolchain like Webpack.`,
-    'You are sick of figuring out names for things.',
-    'You believe it breaks separation of concerns.',
+    "You are sick of figuring out names for things.",
+    "You believe it breaks separation of concerns.",
     `You don't want to enforce all consumers must use the same CSS-in-JS solution.`,
   ]}
 />
@@ -228,16 +236,16 @@ One of my favorite libraries is [Chakra UI](https://next.chakra-ui.com/).
   title="Theme UI / styled-system"
   pros={[
     `You're building a component library.`,
-    'You need to enforce a design system.',
-    'You want to spend less time trying to name components.',
+    "You need to enforce a design system.",
+    "You want to spend less time trying to name components.",
   ]}
 />
 
 <ConsCard
   title="Theme UI / styled-system"
   cons={[
-    'You dislike providing styles as props.',
-    'You believe it breaks separation of concerns.',
+    "You dislike providing styles as props.",
+    "You believe it breaks separation of concerns.",
   ]}
 />
 
@@ -251,9 +259,9 @@ With the combination of [Tailwind UI](https://tailwindui.com/), you can easily b
 <ProsCard
   title="Tailwind"
   pros={[
-    'You want to never leave your HTML (or JSX).',
-    'You need to enforce a design system.',
-    'You want to spend less time trying to name components.',
+    "You want to never leave your HTML (or JSX).",
+    "You need to enforce a design system.",
+    "You want to spend less time trying to name components.",
   ]}
 />
 
