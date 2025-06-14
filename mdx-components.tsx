@@ -1,8 +1,20 @@
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
+import { Callout, ProsCard, ConsCard } from "@/components/snippet";
 import { Separator } from "@/components/ui/separator";
+import { extractValidChildren } from "@/lib/utils";
 import { highlight } from "sugar-high";
 
+import {
+  TableHeader,
+  TableBody,
+  TableHead,
+  TableRow,
+  Table,
+  TableCell,
+} from "@/components/ui/table";
+
+import Image from "next/image";
 import Link from "next/link";
 
 type HeadingProps = ComponentPropsWithoutRef<"h1">;
@@ -90,26 +102,40 @@ const components = {
     // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
     return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
   },
-  table: ({ data }: { data: { headers: string[]; rows: string[][] } }) => (
-    <table>
-      <thead>
-        <tr>
-          {data.headers.map((header, headerIndex) => (
-            <th key={`header-${headerIndex}`}>{header}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {data.rows.map((row, rowIndex) => (
-          <tr key={`row-${rowIndex}`}>
-            {row.map((cell, cellIndex) => (
-              <td key={`cell-${rowIndex}-${cellIndex}`}>{cell}</td>
+  table: (props: { children: ReactNode }) => {
+    const [THead, TBody] = extractValidChildren(props.children);
+    const [TH] = extractValidChildren(THead?.props?.children);
+    const TRow = extractValidChildren(TBody?.props?.children);
+    const TCell = TRow.map((tree) =>
+      extractValidChildren(tree?.props?.children)
+    );
+
+    return (
+      <Table className="table-auto mx-auto max-w-full w-full border border-blue-100 dark:border-blue-50/30 rounded-sm">
+        <TableHeader>
+          <TableRow className="*:border-blue-100 dark:*:border-blue-100/30 hover:bg-blue-50 dark:bg-blue-300/45 [&>:not(:last-child)]:border-r px-2 bg-blue-50">
+            {extractValidChildren(TH?.props?.children).map((th) => (
+              <TableHead key={th.key}>{th?.props?.children}</TableHead>
             ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  ),
+          </TableRow>
+        </TableHeader>
+        <TableBody className="[&_td:first-child]:rounded-l-lg [&_td:last-child]:rounded-r-lg">
+          {TCell.map((row, rowIndex) => (
+            <TableRow
+              key={`${rowIndex + 1}-${"row"}`}
+              className="*:border-blue-50 dark:*:border-blue-50/30 hover:bg-transparent [&>:not(:last-child)]:border-r px-2"
+            >
+              {row.map((cell) => (
+                <TableCell key={`${rowIndex + 1}-${cell.key}-${"cell"}`}>
+                  {cell?.props?.children}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    );
+  },
   blockquote: (props: BlockquoteProps) => (
     <blockquote
       className="ml-[0.075em] border-l-3 border-blue-300 pl-4 text-gray-700 dark:border-blue-600 dark:text-zinc-300"
@@ -117,6 +143,10 @@ const components = {
     />
   ),
   hr: (props: SeparatorProps) => <Separator {...props} />,
+  Callout,
+  ProsCard,
+  ConsCard,
+  Image,
 };
 
 declare global {

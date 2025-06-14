@@ -2,9 +2,10 @@ import differenceInMonths from "date-fns/differenceInMonths";
 import differenceInYears from "date-fns/differenceInYears";
 import differenceInDays from "date-fns/differenceInDays";
 
-import { clsx, type ClassValue } from "clsx";
-
+import { Children, isValidElement } from "react";
 import { twMerge } from "tailwind-merge";
+
+import { clsx, type ClassValue } from "clsx";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -52,3 +53,7 @@ export const DeploymentUrl = (() => {
 
   return url;
 })();
+
+export function extractValidChildren(children: React.ReactNode) {
+  return Children.toArray(children).filter(isValidElement);
+}
