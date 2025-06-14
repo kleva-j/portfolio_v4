@@ -22,10 +22,8 @@ export default function RootLayout({ children }: PropsWithChildren) {
         >
           <ViewTransition name="page">
             <Header />
-            <section className="max-w-2xl mb-40 flex flex-col md:flex-row mx-4 lg:mx-auto">
-              <main className="flex-auto min-w-0 flex flex-col px-2 md:px-0">
-                {children}
-              </main>
+            <section className="max-w-2xl mx-auto">
+              <main>{children}</main>
             </section>
           </ViewTransition>
         </ThemeProvider>

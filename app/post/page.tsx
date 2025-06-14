@@ -53,7 +53,7 @@ export default async function PostsPage({ searchParams }: PageProps) {
   }
 
   return (
-    <div className="container mx-auto px-4 py-12">
+    <div className="container mx-auto px-4 py-10">
       <div className="text-center mb-12">
         <p className="text-base font-normal text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
           Explore my latest thoughts and insights on various topics.

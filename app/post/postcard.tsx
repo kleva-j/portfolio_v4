@@ -28,15 +28,15 @@ export const PostCard = ({ post }: PostCardProps) => {
           </CardTitle>
         </CardHeader>
         <CardContent className="p-0">
-          <p className="text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">
+          <p className="text-gray-500 dark:text-gray-400 mb-2 line-clamp-2">
             {summary}
           </p>
         </CardContent>
         <CardFooter className="p-0 divide-x-2 divide-gray-100 dark:divide-gray-700 flex items-center gap-2">
-          <p className="text-sm text-black/70 dark:text-white/70 pr-2">
+          <p className="text-[13px] text-gray-600 dark:text-gray-400 pr-2">
             {publishedAt ? format(new Date(publishedAt), "PP") : ""}
           </p>
-          <p className="text-sm text-black/70 dark:text-white/70">
+          <p className="text-[13px] text-gray-600 dark:text-gray-400 font-medium">
             {readTime} min read
           </p>
         </CardFooter>
