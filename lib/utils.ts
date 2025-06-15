@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import differenceInMonths from "date-fns/differenceInMonths";
 import differenceInYears from "date-fns/differenceInYears";
 import differenceInDays from "date-fns/differenceInDays";
@@ -56,4 +58,18 @@ export const DeploymentUrl = (() => {
 
 export function extractValidChildren(children: React.ReactNode) {
   return Children.toArray(children).filter(isValidElement);
+}
+
+export function generateKey(content: ReactNode, fallback: number): string {
+  if (!content) return fallback.toString();
+  if (typeof content === "string") return `${crypto.randomUUID()}-${content}`;
+  if (content?.toString) {
+    const str = content.toString();
+    try {
+      return `${crypto.randomUUID()}-${btoa(str).replace(/=/g, "")}`;
+    } catch {
+      return `${crypto.randomUUID()}-${str}`;
+    }
+  }
+  return fallback.toString();
 }

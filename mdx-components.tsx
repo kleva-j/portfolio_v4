@@ -1,33 +1,37 @@
-import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import type { ComponentPropsWithoutRef, ReactNode, ReactElement } from "react";
+import type { ImageProps } from "next/image";
 
+import { cn, extractValidChildren, generateKey } from "@/lib/utils";
 import { Callout, ProsCard, ConsCard } from "@/components/snippet";
 import { Separator } from "@/components/ui/separator";
-import { extractValidChildren } from "@/lib/utils";
 import { highlight } from "sugar-high";
 
 import {
   TableHeader,
   TableBody,
+  TableCell,
   TableHead,
   TableRow,
   Table,
-  TableCell,
 } from "@/components/ui/table";
 
 import Image from "next/image";
 import Link from "next/link";
 
-type HeadingProps = ComponentPropsWithoutRef<"h1">;
-type ParagraphProps = ComponentPropsWithoutRef<"p">;
-type ListProps = ComponentPropsWithoutRef<"ul">;
-type ListItemProps = ComponentPropsWithoutRef<"li">;
-type AnchorProps = ComponentPropsWithoutRef<"a">;
 type BlockquoteProps = ComponentPropsWithoutRef<"blockquote">;
-type SeparatorProps = ComponentPropsWithoutRef<"hr">;
-type EmProps = ComponentPropsWithoutRef<"em">;
 type StrongProps = ComponentPropsWithoutRef<"strong">;
-type CodeProps = ComponentPropsWithoutRef<"code">;
+type SeparatorProps = ComponentPropsWithoutRef<"hr">;
 type SmallProps = ComponentPropsWithoutRef<"small">;
+type ParagraphProps = ComponentPropsWithoutRef<"p">;
+type ListItemProps = ComponentPropsWithoutRef<"li">;
+type HeadingProps = ComponentPropsWithoutRef<"h1">;
+type CodeProps = ComponentPropsWithoutRef<"code">;
+type AnchorProps = ComponentPropsWithoutRef<"a">;
+type ListProps = ComponentPropsWithoutRef<"ul">;
+type EmProps = ComponentPropsWithoutRef<"em">;
+
+type TableHeaderProps = ComponentPropsWithoutRef<typeof TableHeader>;
+type TableBodyProps = ComponentPropsWithoutRef<typeof TableBody>;
 
 const components = {
   h1: (props: HeadingProps) => (
@@ -102,36 +106,71 @@ const components = {
     // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
     return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
   },
-  table: (props: { children: ReactNode }) => {
-    const [THead, TBody] = extractValidChildren(props.children);
-    const [TH] = extractValidChildren(THead?.props?.children);
-    const TRow = extractValidChildren(TBody?.props?.children);
-    const TCell = TRow.map((tree) =>
-      extractValidChildren(tree?.props?.children)
-    );
+  table: ({ children }: { children: ReactNode }) => {
+    if (!children) return null;
+
+    // Extract table parts
+    const tableParts = extractValidChildren(children) as ReactElement[];
+    const [THead, TBody] = tableParts;
+    if (!THead || !TBody) return null;
+
+    // Type assertions for table parts
+    const typedTHead = THead as ReactElement<TableHeaderProps>;
+    const typedTBody = TBody as ReactElement<TableBodyProps>;
+
+    // Extract header content
+    const headerContent = extractValidChildren(typedTHead.props.children) as ReactElement[];
+    const bodyContent = extractValidChildren(typedTBody.props.children) as ReactElement[];
+
+    const [TH] = headerContent;
+    if (!TH || !bodyContent) return null;
+
+    // Extract cell content
+    const TCell = bodyContent.map((row: ReactElement) => {
+      const rowProps = row.props as { children?: ReactNode };
+      return extractValidChildren(rowProps.children) as ReactElement[];
+    });
+    if (!TCell) return null;
+
+    const thChildren = extractValidChildren(
+      (TH.props as { children?: ReactNode }).children
+    ) as ReactElement[];
 
     return (
       <Table className="table-auto mx-auto max-w-full w-full border border-blue-100 dark:border-blue-50/30 rounded-sm">
         <TableHeader>
           <TableRow className="*:border-blue-100 dark:*:border-blue-100/30 hover:bg-blue-50 dark:bg-blue-300/45 [&>:not(:last-child)]:border-r px-2 bg-blue-50">
-            {extractValidChildren(TH?.props?.children).map((th) => (
-              <TableHead key={th.key}>{th?.props?.children}</TableHead>
-            ))}
+            {thChildren.map((th: ReactElement, index: number) => {
+              const thProps = th.props as { children?: ReactNode };
+              return (
+                <TableHead key={generateKey(thProps.children, index)}>
+                  {thProps.children}
+                </TableHead>
+              );
+            })}
           </TableRow>
         </TableHeader>
         <TableBody className="[&_td:first-child]:rounded-l-lg [&_td:last-child]:rounded-r-lg">
-          {TCell.map((row, rowIndex) => (
-            <TableRow
-              key={`${rowIndex + 1}-${"row"}`}
-              className="*:border-blue-50 dark:*:border-blue-50/30 hover:bg-transparent [&>:not(:last-child)]:border-r px-2"
-            >
-              {row.map((cell) => (
-                <TableCell key={`${rowIndex + 1}-${cell.key}-${"cell"}`}>
-                  {cell?.props?.children}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
+          {TCell.map((row: ReactElement[], rowIndex: number) => {
+            const firstCell = row[0] as ReactElement;
+            const firstCellProps = firstCell?.props as { children?: ReactNode };
+
+            return (
+              <TableRow
+                key={generateKey(firstCellProps?.children, rowIndex)}
+                className="*:border-blue-50 dark:*:border-blue-50/30 hover:bg-transparent [&>:not(:last-child)]:border-r px-2"
+              >
+                {row.map((cell: ReactElement, cellIndex: number) => {
+                  const cellProps = cell.props as { children?: ReactNode };
+                  return (
+                    <TableCell key={generateKey(cellProps.children, cellIndex)}>
+                      {cellProps.children}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     );
@@ -146,7 +185,15 @@ const components = {
   Callout,
   ProsCard,
   ConsCard,
-  Image,
+  Image: ({ className, ...props }: ImageProps) => (
+    <Image
+      {...props}
+      className={cn(
+        "rounded-sm border border-blue-100 dark:border-blue-50/30 p-1",
+        className
+      )}
+    />
+  ),
 };
 
 declare global {
