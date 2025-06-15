@@ -1,6 +1,5 @@
 import type { NextConfig } from "next";
 
-import remarkGfm from "remark-gfm";
 import createMDX from "@next/mdx";
 
 const nextConfig: NextConfig = {
@@ -86,24 +85,6 @@ const securityHeaders = [
   },
 ];
 
-const withMDX = createMDX({
-  // Add markdown plugins here, as desired
-  extension: /\.(md|mdx)$/,
-  options: {
-    remarkPlugins: [remarkGfm],
-    rehypePlugins: [
-      ["rehype-slug", { strict: true, throwOnError: true }],
-      [
-        "rehype-autolink-headings",
-        {
-          behavior: "wrap",
-          properties: {
-            className: ["anchor"],
-          },
-        },
-      ],
-    ],
-  },
-});
+const withMDX = createMDX({ extension: /\.(md|mdx)$/ });
 
 module.exports = withMDX(nextConfig);
