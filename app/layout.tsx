@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 
 import { unstable_ViewTransition as ViewTransition } from "react";
 import { ThemeProvider } from "@/components/theme-provider";
+import { SplashScreen } from "@/components/splash-screen";
+import { Particles } from "@/components/ui/particles";
 import { siteConfig } from "@/lib/site/config";
 import { Header } from "@/layout/header";
 import { graphik } from "@/lib/fonts";
@@ -20,11 +22,14 @@ export default function RootLayout({ children }: PropsWithChildren) {
           enableSystem
           disableTransitionOnChange
         >
+          <Particles quantity={500} />
           <ViewTransition name="page">
-            <Header />
-            <section className="max-w-2xl mx-auto">
-              <main>{children}</main>
-            </section>
+            <SplashScreen>
+              <Header />
+              <section className="max-w-2xl mx-auto">
+                <main>{children}</main>
+              </section>
+            </SplashScreen>
           </ViewTransition>
         </ThemeProvider>
       </body>
