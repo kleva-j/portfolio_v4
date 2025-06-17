@@ -15,7 +15,7 @@ export default async function PostPage({ params }: PostPageProps) {
       `@/content/post/${slug}.mdx`
     );
     return (
-      <div className="flex flex-col gap-2 my-16">
+      <div className="flex flex-col gap-2 my-16 backdrop-blur-xs">
         <PostHeader metadata={metadata} />
         <div data-slot="post-content">
           <Post />
