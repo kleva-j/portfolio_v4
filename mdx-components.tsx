@@ -1,6 +1,7 @@
 import type { ComponentPropsWithoutRef, ReactNode, ReactElement } from "react";
 import type { ImageProps } from "next/image";
 
+import { AnimatedUnderline } from "@/components/ui/animated-underline";
 import { cn, extractValidChildren, generateKey } from "@/lib/utils";
 import { Callout, ProsCard, ConsCard } from "@/components/snippet";
 import { Separator } from "@/components/ui/separator";
@@ -77,9 +78,17 @@ const components = {
       "text-blue-500 hover:text-blue-700 dark:text-sky-400 hover:dark:text-sky-300 dark:underline dark:underline-offset-2 dark:decoration-gray-800";
     if (href?.startsWith("/")) {
       return (
-        <Link href={href} className={className} {...props}>
+        <AnimatedUnderline
+          className={cn(
+            className,
+            "after:bg-blue-500 dark:after:bg-blue-400 -after:bottom-4"
+          )}
+          href={href}
+          as={Link}
+          {...props}
+        >
           {children}
-        </Link>
+        </AnimatedUnderline>
       );
     }
     if (href?.startsWith("#")) {

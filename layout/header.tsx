@@ -4,6 +4,7 @@ import avatar from "app/avatar.jpg";
 import Image from "next/image";
 import Link from "next/link";
 
+import { AnimatedUnderline } from "@/components/ui/animated-underline";
 import { ModeToggle } from "@/components/theme-toggle";
 import { siteConfig } from "@/lib/site/config";
 import { useState, useEffect } from "react";
@@ -45,12 +46,13 @@ export const Header = () => {
               <ul className="flex gap-8 text-sm">
                 {menuItems.map(([path, { name }]) => (
                   <li key={path}>
-                    <Link
+                    <AnimatedUnderline
+                      as={Link}
                       href={path}
                       className="text-muted-foreground hover:text-accent-foreground block duration-150"
                     >
                       <span>{name}</span>
-                    </Link>
+                    </AnimatedUnderline>
                   </li>
                 ))}
               </ul>
