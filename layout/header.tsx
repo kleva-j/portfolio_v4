@@ -1,6 +1,6 @@
 "use client";
 
-import avatar from "app/avatar.jpg";
+import ProfilePic from "app/michael.jpg";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -9,11 +9,16 @@ import { ModeToggle } from "@/components/theme-toggle";
 import { siteConfig } from "@/lib/site/config";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 
 const menuItems = Object.entries(siteConfig.navigation) ?? [];
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const pathname = usePathname();
+
+  const currentPath = pathname.split("/")[1];
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -34,27 +39,37 @@ export const Header = () => {
           <div className="relative flex flex-wrap items-center justify-between gap-6 py-1 lg:gap-0 lg:py-2">
             <div className="flex w-full justify-between lg:w-auto">
               <Image
-                src={avatar}
+                src={ProfilePic}
                 alt="avatar"
                 width={40}
                 height={40}
-                className="rounded-full"
+                className="rounded-full size-[40px] object-cover object-top-left"
               />
             </div>
 
             <div className="absolute inset-0 m-auto hidden size-fit lg:block">
               <ul className="flex gap-8 text-sm">
-                {menuItems.map(([path, { name }]) => (
-                  <li key={path}>
-                    <AnimatedUnderline
-                      as={Link}
-                      href={path}
-                      className="text-muted-foreground hover:text-accent-foreground block duration-150"
-                    >
-                      <span>{name}</span>
-                    </AnimatedUnderline>
-                  </li>
-                ))}
+                {menuItems.map(([path, { name }]) => {
+                  const isActive =
+                    currentPath === ""
+                      ? path === "/"
+                      : name.toLowerCase() === currentPath.toLowerCase();
+
+                  return (
+                    <li key={path}>
+                      <AnimatedUnderline
+                        className={cn(
+                          "text-muted-foreground hover:text-accent-foreground block duration-150",
+                          { "text-accent-foreground font-semibold": isActive }
+                        )}
+                        href={path}
+                        as={Link}
+                      >
+                        <span>{name}</span>
+                      </AnimatedUnderline>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
             <ModeToggle />
