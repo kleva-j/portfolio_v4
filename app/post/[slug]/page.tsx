@@ -1,4 +1,5 @@
 import { PostHeader } from "@/app/post/[slug]/post-header";
+import { GoBack } from "@/components/go-back";
 import { notFound } from "next/navigation";
 import { getPostSlugs } from "@/lib/post";
 
@@ -15,7 +16,8 @@ export default async function PostPage({ params }: PostPageProps) {
       `@/content/post/${slug}.mdx`
     );
     return (
-      <div className="flex flex-col gap-2 my-16 backdrop-blur-xs">
+      <div className="flex flex-col gap-2 mt-10 mb-16 backdrop-blur-xs">
+        <GoBack />
         <PostHeader metadata={metadata} />
         <div data-slot="post-content">
           <Post />
