@@ -26,6 +26,7 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-wrap-balancer": "^1.0.0",
+    "shiki": "^3.7.0",
     "sugar-high": "^0.9.3",
     "swr": "^2.2.0",
     "tailwind-merge": "^3.3.0"
