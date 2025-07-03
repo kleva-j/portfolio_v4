@@ -1,6 +1,7 @@
 import type { PropsWithChildren } from "react";
 import type { Metadata } from "next";
 
+import { ShowScrollProgress } from "@/components/show-scroll-progress";
 import { unstable_ViewTransition as ViewTransition } from "react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SplashScreen } from "@/components/splash-screen";
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
           enableSystem
           disableTransitionOnChange
         >
+          <ShowScrollProgress />
           <Particles quantity={500} />
           <ViewTransition name="page">
             <SplashScreen>
