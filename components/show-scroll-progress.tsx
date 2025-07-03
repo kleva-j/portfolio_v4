@@ -2,13 +2,14 @@
 
 import { ScrollProgress } from "@/components/animate-ui/components/scroll-progress";
 import { usePathname } from "next/navigation";
+import { useMemo } from "react";
 
-const ALLOWED_PATHS = ["post", "snippets"];
+const PATHS = ["post", "snippets"];
 
 export const ShowScrollProgress = () => {
   const [, currentPath, slug] = usePathname().split("/");
 
-  const includePath = ALLOWED_PATHS.includes(currentPath);
+  const includePath = useMemo(() => PATHS.includes(currentPath), [currentPath]);
 
   if (!includePath || !slug) return null;
 
