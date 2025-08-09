@@ -3,9 +3,15 @@ import type { ImageProps } from "next/image";
 
 import { AnimatedUnderline } from "@/components/ui/animated-underline";
 import { cn, extractValidChildren, generateKey } from "@/lib/utils";
-import { Callout, ProsCard, ConsCard } from "@/components/snippet";
 import { Separator } from "@/components/ui/separator";
 import { highlight } from "sugar-high";
+
+import {
+  HighlightText,
+  ProsCard,
+  ConsCard,
+  Callout,
+} from "@/components/snippet";
 
 import {
   TableHeader,
@@ -128,8 +134,12 @@ const components = {
     const typedTBody = TBody as ReactElement<TableBodyProps>;
 
     // Extract header content
-    const headerContent = extractValidChildren(typedTHead.props.children) as ReactElement[];
-    const bodyContent = extractValidChildren(typedTBody.props.children) as ReactElement[];
+    const headerContent = extractValidChildren(
+      typedTHead.props.children
+    ) as ReactElement[];
+    const bodyContent = extractValidChildren(
+      typedTBody.props.children
+    ) as ReactElement[];
 
     const [TH] = headerContent;
     if (!TH || !bodyContent) return null;
@@ -194,6 +204,7 @@ const components = {
   Callout,
   ProsCard,
   ConsCard,
+  HighlightText,
   Image: ({ className, ...props }: ImageProps) => (
     <Image
       {...props}

@@ -1,0 +1,133 @@
+import { OctagonAlert } from "lucide-react";
+
+export const metadata = {
+  title: "Introduction to Branded Types in Effect",
+  description:
+    "Learn how to use branded types in Effect to create type-safe APIs and avoid common pitfalls.",
+  summary:
+    "Learn how to use branded types in Effect to create type-safe APIs and avoid common pitfalls.",
+  publishedAt: "2025-08-08",
+  updatedAt: "2025-08-08",
+  readTime: 5,
+  image: "/images/learn-effect/image.png",
+  alternates: {
+    canonical: "/post/effects-branded-types-1",
+  },
+};
+
+Branded types are a powerful feature in TypeScript that allow you to create types that are distinct from other types. This can be useful in a number of scenarios, such as creating types that are used to represent different units of measurement, or creating types that are used to represent different states of a process.
+
+## Why Use Branded Types?
+
+Branded types are an important tool in Effect as they help manage different types of values in a type-safe way. Branded Types are essentially regular Typescript types but with a unique Brand/Tag that differentiates them from other types.
+
+Here below is a typical use-case of a problem that branded types can solve.
+
+```ts
+type UserId = string;
+type OrderId = string;
+
+function getUser(id: UserId): string {
+  return `User: ${id}`;
+}
+
+function getOrder(id: OrderId): string {
+  return `Order: ${id}`;
+}
+
+// This compiles fine but can cause runtime issues
+const userId: UserId = "123";
+const orderId: OrderId = "123";
+
+// Accidentally passing an OrderId to a UserId function
+console.log(getUser(userId)); // Correct: "User: 123"
+console.log(getUser(orderId)); // Bug! Outputs "User: 123" but should be an Order
+```
+
+### <OctagonAlert className='inline-block stroke-sky-600 mr-0.5 mb-1' size={18} /> Issue
+
+<HighlightText>UserId</HighlightText> and <HighlightText>OrderId</HighlightText> are
+both string types, so TypeScript doesn't catch the error when you pass an `OrderId`
+to a function expecting a `UserId`. This can lead to runtime bugs because the types
+are structurally identical _(both are string)_.
+
+### <OctagonAlert className='inline-block stroke-emerald-600 mr-0.5 mb-1' size={18} /> Solution: Using Effect Branded Types
+
+Effect's branded types allow you to create distinct types that are not interchangeable, even if they have the same underlying structure.
+
+```ts
+import { Brand } from "effect";
+
+// Define branded types
+type UserId = string & Brand.Brand<"UserId">;
+type OrderId = string & Brand.Brand<"OrderId">;
+
+// Create branded constructors
+const UserId = Brand.nominal<UserId>();
+const OrderId = Brand.nominal<OrderId>();
+
+function getUser(id: UserId): string {
+  return `User: ${id}`;
+}
+
+function getOrder(id: OrderId): string {
+  return `Order: ${id}`;
+}
+
+// Create branded values
+const userId = UserId("123"); // Branded as UserId
+const orderId = OrderId("123"); // Branded as OrderId
+
+// These work as expected
+console.log(getUser(userId)); // "User: 123"
+console.log(getOrder(orderId)); // "Order: 123"
+
+// TypeScript will catch this error at compile time
+console.log(getUser(orderId)); // Error: Argument of type 'OrderId' is not assignable to parameter of type 'UserId'
+```
+
+### Why Branded Types Fix the Issue
+
+- **Uniqueness**: Branded types add a unique "tag" (UserId or OrderId) to the base type (string), making them distinct in TypeScript's type system.
+- **Type Safety**: TypeScript enforces that only a <HighlightText>"UserId"</HighlightText> can be passed to <HighlightText>"getUser"</HighlightText> and only an <HighlightText>"OrderId"</HighlightText> to <HighlightText>"getOrder"</HighlightText>, preventing accidental misuse.
+- **No Runtime Overhead**: Branding is a compile-time construct, so it doesn't add runtime cost.
+
+By using Effect's branded types, you ensure that similar types (like UserId and OrderId) are treated as distinct, catching potential bugs at compile time rather than runtime.
+
+### A Note on Constructing Branded Types
+
+Effect provides a few ways to construct branded types:
+
+#### Using <HighlightText>Brand.nominal</HighlightText>
+
+<HighlightText>Brand.nominal</HighlightText> is the most common way to construct branded types. The __Brand.nominal__ function creates branded types without needing runtime checks. It attaches a type tag to the base type, enabling differentiation between values of the same type but with distinct purposes. These nominal branded types are helpful for enhancing code clarity and organization by ensuring type uniqueness.
+
+```ts
+import { Brand } from "effect";
+
+// Define branded types
+type UserId = string & Brand.Brand<"UserId">;
+
+// Create branded constructors
+const UserId = Brand.nominal<UserId>();
+
+// Create branded values
+const userId = UserId("123"); // Branded as UserId
+```
+
+Usage:
+```ts
+function getUser(id: UserId): string {
+  return `User: ${id}`;
+}
+
+// Correct usage
+const currentUser = getUser(UserId("123")); // "User: 123"
+
+// Incorrect usage
+const currentUser = getUser(123); // Error: Argument of type 'number' is not assignable to parameter of type 'UserId'
+```
+
+#### Using <HighlightText>Brand.refined</HighlightText>
+
+

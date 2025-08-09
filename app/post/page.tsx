@@ -29,7 +29,10 @@ const requiredMetadata: string[] = [
 ];
 
 export default async function PostsPage({ searchParams }: PageProps) {
-  const posts: Post[] = await getPost();
+  const posts: Post[] = (await getPost()).sort(
+    (a, b) =>
+      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  );
 
   const { page: currentPage, limit } = await loadPaginationParams(searchParams);
 
