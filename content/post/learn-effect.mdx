@@ -1,7 +1,10 @@
 export const metadata = {
-  title: "Step-by-Step Tutorial: Learning the Effect TypeScript Library as a Beginner",
-  description: "A step-by-step tutorial on how to learn the Effect TypeScript library as a beginner.",
-  summary: "A step-by-step tutorial on how to learn the Effect TypeScript library as a beginner.",
+  title:
+    "Step-by-Step Tutorial: Learning the Effect TypeScript Library as a Beginner",
+  description:
+    "A step-by-step tutorial on how to learn the Effect TypeScript library as a beginner.",
+  summary:
+    "A step-by-step tutorial on how to learn the Effect TypeScript library as a beginner.",
   alternates: {
     canonical: "/post/learn-effect",
   },
@@ -9,12 +12,14 @@ export const metadata = {
   updatedAt: "2025-08-08",
   readTime: 5,
   image: "/images/learn-effect/image.png",
-}
+};
 
 ## Introduction
+
 Effect is a powerful TypeScript library that simplifies building robust, type-safe applications by providing tools for managing side effects, error handling, and asynchronous operations. It’s designed to enhance TypeScript’s capabilities with functional programming principles, offering composable abstractions for concurrency, error management, and more. This tutorial will guide you through setting up a project, understanding Effect’s core concepts, and building a simple weather widget app to fetch and display weather data.
 
 By the end of this tutorial, you’ll:
+
 - Understand what Effect is and why it’s useful.
 - Set up a TypeScript project with Effect.
 - Learn core Effect concepts like `Effect`, `pipe`, and error handling.
@@ -24,7 +29,9 @@ By the end of this tutorial, you’ll:
 This tutorial is beginner-friendly and includes practical examples to make learning engaging and hands-on.
 
 ## Prerequisites
+
 Before starting, ensure you have:
+
 - **Node.js** (version 16 or higher) installed.
 - **npm** (Node Package Manager) or **yarn** for installing dependencies.
 - A code editor like **Visual Studio Code** with TypeScript support.
@@ -32,7 +39,9 @@ Before starting, ensure you have:
 - An API key from [OpenWeatherMap](https://openweathermap.org/) for fetching weather data (free tier available).
 
 ## Step 1: Understanding Effect
+
 Effect is a TypeScript library that provides a functional programming approach to handle side effects (e.g., API calls, DOM manipulation) in a type-safe, composable way. It aims to replace specialized libraries like Lodash, Zod, or RxJS by offering a unified set of tools for:
+
 - **Error Handling**: Robust, type-safe error management inspired by Rust.
 - **Asynchronous Operations**: Simplified handling of async tasks with composable workflows.
 - **Type-Safety**: Ensures code correctness at compile-time.
@@ -42,10 +51,12 @@ Effect is a TypeScript library that provides a functional programming approach t
 Effect is particularly useful for complex applications where managing side effects and errors is critical. It’s incrementally adoptable, meaning you can use it alongside vanilla TypeScript.
 
 ## Step 2: Setting Up Your Project
+
 Let’s set up a TypeScript project and install Effect.
 
 1. **Create a New Project**:
    Open your terminal and create a new directory for your project:
+
    ```bash
    mkdir effect-weather-app
    cd effect-weather-app
@@ -54,16 +65,34 @@ Let’s set up a TypeScript project and install Effect.
 
 2. **Install TypeScript and Effect**:
    Install TypeScript and the Effect library:
-   ```bash
-   npm install typescript @effect-ts/core
-   ```
-   Initialize TypeScript configuration:
-   ```bash
-   npx tsc --init
-   ```
+
+<CodeTabs
+  defaultValue="pnpm"
+  height="h-10"
+  codes={{
+    npm: `npm install typescript @effect-ts/core`,
+    pnpm: `pnpm add typescript @effect-ts/core`,
+    yarn: `yarn add typescript @effect-ts/core`,
+    bun: `bun add typescript @effect-ts/core`,
+  }}
+/>
+
+Initialize TypeScript configuration:
+
+<CodeTabs
+  defaultValue="pnpm"
+  height="h-10"
+  codes={{
+    npm: `npx tsc --init`,
+    pnpm: `pnpm dlx tsc --init`,
+    yarn: `yarn dlx tsc --init`,
+    bun: `bun x --bun tsc --init`,
+  }}
+/>
 
 3. **Configure `tsconfig.json`**:
    Open `tsconfig.json` and ensure it includes the following settings for Effect compatibility:
+
    ```json
    {
      "compilerOptions": {
@@ -83,6 +112,7 @@ Let’s set up a TypeScript project and install Effect.
 
 4. **Set Up Project Structure**:
    Create a `src` folder and an `index.ts` file:
+
    ```bash
    mkdir src
    touch src/index.ts
@@ -90,26 +120,28 @@ Let’s set up a TypeScript project and install Effect.
 
 5. **Install Additional Dependencies**:
    For the weather widget, we’ll use `axios` for API requests and `zod` for schema validation (though Effect can handle validation, we’ll use Zod for simplicity):
+
    ```bash
    npm install axios zod
    ```
 
 6. **Create an HTML File**:
    Create an `index.html` file in the project root to serve the app:
+
    ```html
    <!DOCTYPE html>
    <html lang="en">
-   <head>
-     <meta charset="UTF-8">
-     <title>Weather Widget</title>
-   </head>
-   <body>
-     <h1>Weather Widget</h1>
-     <input type="text" id="city" placeholder="Enter city name">
-     <ul id="cities"></ul>
-     <div id="weather"></div>
-     <script type="module" src="./dist/index.js"></script>
-   </body>
+     <head>
+       <meta charset="UTF-8" />
+       <title>Weather Widget</title>
+     </head>
+     <body>
+       <h1>Weather Widget</h1>
+       <input type="text" id="city" placeholder="Enter city name" />
+       <ul id="cities"></ul>
+       <div id="weather"></div>
+       <script type="module" src="./dist/index.js"></script>
+     </body>
    </html>
    ```
 
@@ -123,15 +155,19 @@ Let’s set up a TypeScript project and install Effect.
    ```
 
 ## Step 3: Core Effect Concepts
+
 Before coding the weather widget, let’s explore Effect’s core concepts with simple examples.
 
 ### 3.1. The `Effect` Type
+
 The `Effect` type is the heart of the library. It represents a computation that may:
+
 - Produce a value (success).
 - Fail with an error.
 - Perform side effects (e.g., API calls).
 
 Example:
+
 ```ts
 import * as Effect from "@effect-ts/core/Effect";
 
@@ -143,17 +179,17 @@ Effect.runSync(greet); // Output: Hello, Effect!
 - `Effect.runSync` executes the Effect synchronously (use cautiously; we’ll use async execution later).
 
 ### 3.2. Handling Errors
+
 Effect provides type-safe error handling using `Either` or custom error types.
 
 Example:
+
 ```ts
 import * as Effect from "@effect-ts/core/Effect";
 import { pipe } from "@effect-ts/core/Function";
 
 const divide = (a: number, b: number) =>
-  b === 0
-    ? Effect.fail("Division by zero")
-    : Effect.succeed(a / b);
+  b === 0 ? Effect.fail("Division by zero") : Effect.succeed(a / b);
 
 const result = pipe(
   divide(10, 2),
@@ -168,15 +204,15 @@ console.log(Effect.runSync(divide(10, 0))); // Throws: Division by zero
 - `Effect.fail` creates an Effect that fails with an error.
 
 ### 3.3. Asynchronous Operations
+
 Effect handles async tasks with `Effect.promise` or `Effect.async`.
 
 Example:
+
 ```ts
 import * as Effect from "@effect-ts/core/Effect";
 
-const fetchData = Effect.promise(() =>
-  Promise.resolve("Data from API")
-);
+const fetchData = Effect.promise(() => Promise.resolve("Data from API"));
 
 Effect.runPromise(fetchData).then(console.log); // Output: Data from API
 ```
@@ -185,9 +221,11 @@ Effect.runPromise(fetchData).then(console.log); // Output: Data from API
 - `Effect.runPromise` executes an async Effect.
 
 ### 3.4. Composing Effects
+
 Effect’s composability allows you to combine operations using `pipe`, `Effect.map`, and `Effect.chain`.
 
 Example:
+
 ```ts
 import * as Effect from "@effect-ts/core/Effect";
 import { pipe } from "@effect-ts/core/Function";
@@ -205,12 +243,15 @@ console.log(Effect.runSync(compute)); // Output: 11
 - `Effect.chain` chains another Effect based on the result.
 
 ## Step 4: Building the Weather Widget
+
 Let’s build a weather widget that:
+
 - Allows users to enter a city name.
 - Fetches weather data from the OpenWeatherMap API.
 - Displays the temperature, humidity, and precipitation.
 
 ### 4.1. Define Types with Zod
+
 We’ll use Zod to define schemas for API responses. Create a file `src/types.ts`:
 
 ```ts
@@ -229,6 +270,7 @@ export type Weather = z.infer<typeof WeatherSchema>;
 ```
 
 ### 4.2. Set Up DOM Elements
+
 In `src/index.ts`, select DOM elements and define the API key:
 
 ```ts
@@ -238,6 +280,7 @@ const API_KEY = "YOUR_OPENWEATHERMAP_API_KEY"; // Replace with your API key
 ```
 
 ### 4.3. Fetch Weather Data with Effect
+
 Create a function to fetch weather data using Effect and axios:
 
 ```ts
@@ -250,7 +293,9 @@ const getWeather = (city: string) =>
   Effect.tryPromise({
     try: () =>
       axios
-        .get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`)
+        .get(
+          `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
+        )
         .then((res) => WeatherSchema.parse(res.data)),
     catch: (error) => new Error(`Failed to fetch weather: ${error}`),
   });
@@ -260,6 +305,7 @@ const getWeather = (city: string) =>
 - `WeatherSchema.parse` validates the API response.
 
 ### 4.4. Display Weather Data
+
 Create a function to display weather data:
 
 ```ts
@@ -279,6 +325,7 @@ const displayWeather = (weather: Weather) =>
 ```
 
 ### 4.5. Handle User Input
+
 Add an event listener to fetch and display weather when the user types:
 
 ```ts
@@ -317,6 +364,7 @@ const handleInput = Effect.async<unknown, Error, void>((resume) => {
 - `Effect.catchAll` handles errors by displaying a message.
 
 ### 4.6. Run the Program
+
 Execute the program:
 
 ```ts
@@ -324,6 +372,7 @@ Effect.runPromise(handleInput).catch(console.error);
 ```
 
 ### 4.7. Complete Code
+
 Here’s the full `src/index.ts`:
 
 ```ts
@@ -340,7 +389,9 @@ const getWeather = (city: string) =>
   Effect.tryPromise({
     try: () =>
       axios
-        .get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`)
+        .get(
+          `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
+        )
         .then((res) => WeatherSchema.parse(res.data)),
     catch: (error) => new Error(`Failed to fetch weather: ${error}`),
   });
@@ -390,13 +441,16 @@ Effect.runPromise(handleInput).catch(console.error);
 ```
 
 ## Step 5: Running the App
+
 1. **Compile the TypeScript**:
+
    ```bash
    npm run build
    ```
 
 2. **Serve the App**:
    Use a local server (e.g., `npx serve`) to serve `index.html`:
+
    ```bash
    npm install -g serve
    serve .
@@ -406,7 +460,9 @@ Effect.runPromise(handleInput).catch(console.error);
    Open your browser (e.g., `http://localhost:3000`), type a city name (e.g., “London”), and see the weather data displayed. If there’s an error (e.g., invalid city), an error message will appear.
 
 ## Step 6: Why Use Effect?
+
 The weather widget demonstrates Effect’s strengths:
+
 - **Type-Safety**: Zod and Effect ensure API data matches the expected schema.
 - **Error Handling**: `Effect.catchAll` gracefully handles errors without try/catch blocks.
 - **Composability**: `pipe` and `Effect.chain` make the code modular and readable.
@@ -415,7 +471,9 @@ The weather widget demonstrates Effect’s strengths:
 Compared to vanilla TypeScript, Effect reduces boilerplate and enforces robust error handling, making it ideal for larger applications.
 
 ## Step 7: Next Steps
+
 To deepen your Effect knowledge:
+
 - **Explore Effect’s Documentation**: Visit [effect.website](https://effect.website) for detailed guides on streams, concurrency, and advanced error handling.[](https://effect.website/)
 - **Join the Community**: Get support on the [Effect Discord](https://discord.gg/effect-ts).[](https://www.youtube.com/watch?v=Lz2J1NBnHK4)
 - **Practice with Examples**: Check Effect’s GitHub for sample projects.
@@ -423,6 +481,7 @@ To deepen your Effect knowledge:
 - **Try Advanced Features**: Experiment with Effect’s `Stream`, `Retry`, and `Layer` APIs for complex use cases.
 
 ## Conclusion
+
 In this tutorial, you’ve learned the basics of Effect by setting up a TypeScript project, understanding core concepts, and building a weather widget. Effect’s type-safe, composable approach makes it a powerful tool for managing complexity in TypeScript applications. Keep practicing with small projects, and you’ll soon find Effect intuitive and rewarding.
 
 Happy coding with Effect!

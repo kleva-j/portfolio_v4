@@ -1,6 +1,7 @@
 import type { ComponentPropsWithoutRef, ReactNode, ReactElement } from "react";
 import type { ImageProps } from "next/image";
 
+import { CodeTabs } from "@/components/animate-ui/components/code-tabs";
 import { AnimatedUnderline } from "@/components/ui/animated-underline";
 import { cn, extractValidChildren, generateKey } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
@@ -205,6 +206,7 @@ const components = {
   ProsCard,
   ConsCard,
   HighlightText,
+  CodeTabs,
   Image: ({ className, ...props }: ImageProps) => (
     <Image
       {...props}

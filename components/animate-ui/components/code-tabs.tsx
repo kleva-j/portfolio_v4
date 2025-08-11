@@ -20,6 +20,7 @@ type CodeTabsProps = {
   themes?: { light: string; dark: string };
   copyButton?: boolean;
   onCopy?: (content: string) => void;
+  height?: string;
 } & Omit<TabsProps, "children">;
 
 function CodeTabs({
@@ -35,6 +36,7 @@ function CodeTabs({
   onValueChange,
   copyButton = true,
   onCopy,
+  height,
   ...props
 }: CodeTabsProps) {
   const { resolvedTheme } = useTheme();
@@ -123,7 +125,10 @@ function CodeTabs({
             <TabsContent
               data-slot="install-tabs-content"
               key={code}
-              className="w-full text-sm flex items-center p-4 overflow-auto"
+              className={cn(
+                "w-full text-sm flex items-center overflow-auto",
+                height
+              )}
               value={code}
             >
               <div
