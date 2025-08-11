@@ -3,11 +3,11 @@ import { OctagonAlert } from "lucide-react";
 export const metadata = {
   title: "Introduction to Branded Types in Effect",
   description:
-    "Learn how to use branded types in Effect to create type-safe APIs and avoid common pitfalls.",
+    "Discover how to leverage branded types in Effect to build type-safe APIs and prevent common errors.",
   summary:
-    "Learn how to use branded types in Effect to create type-safe APIs and avoid common pitfalls.",
+    "Discover how to leverage branded types in Effect to build type-safe APIs and prevent common errors.",
   publishedAt: "2025-08-08",
-  updatedAt: "2025-08-08",
+  updatedAt: "2025-08-11",
   readTime: 5,
   image: "/images/learn-effect/image.png",
   alternates: {
@@ -15,13 +15,17 @@ export const metadata = {
   },
 };
 
-Branded types are a powerful feature in TypeScript that allow you to create types that are distinct from other types. This can be useful in a number of scenarios, such as creating types that are used to represent different units of measurement, or creating types that are used to represent different states of a process.
+## Overview
 
-## Why Use Branded Types?
+Branded types in TypeScript provide a mechanism to create distinct types that are not interchangeable, even if they share the same underlying structure. In the Effect library, branded types enhance type safety by attaching unique tags to base types, ensuring robust API design and preventing runtime errors due to type misuse.
 
-Branded types are an important tool in Effect as they help manage different types of values in a type-safe way. Branded Types are essentially regular Typescript types but with a unique Brand/Tag that differentiates them from other types.
+This article explores the problem of type alias limitations, demonstrates how Effect's branded types solve these issues, and provides practical examples of their implementation.
 
-Here below is a typical use-case of a problem that branded types can solve.
+## The Problem with Type Aliases
+
+Type aliases in TypeScript are structurally typed, meaning two aliases with the same underlying type are interchangeable. This can lead to runtime errors when distinct entities, such as `UserId` and `OrderId`, are mistakenly used in place of one another.
+
+### Example: Type Alias Pitfall
 
 ```ts
 type UserId = string;
@@ -35,25 +39,20 @@ function getOrder(id: OrderId): string {
   return `Order: ${id}`;
 }
 
-// This compiles fine but can cause runtime issues
 const userId: UserId = "123";
 const orderId: OrderId = "123";
 
-// Accidentally passing an OrderId to a UserId function
-console.log(getUser(userId)); // Correct: "User: 123"
-console.log(getUser(orderId)); // Bug! Outputs "User: 123" but should be an Order
+console.log(getUser(userId)); // Output: "User: 123"
+console.log(getUser(orderId)); // Bug! Output: "User: 123" (should be an Order)
 ```
 
-### <OctagonAlert className='inline-block stroke-sky-600 mr-0.5 mb-1' size={18} /> Issue
+**Issue**: Since both `UserId` and `OrderId` are aliases for `string`, TypeScript does not catch the error when an `OrderId` is passed to `getUser`. This structural typing can introduce subtle bugs that manifest at runtime.
 
-<HighlightText>UserId</HighlightText> and <HighlightText>OrderId</HighlightText> are
-both string types, so TypeScript doesn't catch the error when you pass an `OrderId`
-to a function expecting a `UserId`. This can lead to runtime bugs because the types
-are structurally identical _(both are string)_.
+## Solution: Branded Types with Effect
 
-### <OctagonAlert className='inline-block stroke-emerald-600 mr-0.5 mb-1' size={18} /> Solution: Using Effect Branded Types
+Effect's branded types address this issue by attaching a unique brand to a base type, making it distinct in TypeScript's type system. This ensures type safety at compile time without runtime overhead.
 
-Effect's branded types allow you to create distinct types that are not interchangeable, even if they have the same underlying structure.
+### Example: Using Branded Types
 
 ```ts
 import { Brand } from "effect";
@@ -78,56 +77,77 @@ function getOrder(id: OrderId): string {
 const userId = UserId("123"); // Branded as UserId
 const orderId = OrderId("123"); // Branded as OrderId
 
-// These work as expected
-console.log(getUser(userId)); // "User: 123"
-console.log(getOrder(orderId)); // "Order: 123"
+console.log(getUser(userId)); // Output: "User: 123"
+console.log(getOrder(orderId)); // Output: "Order: 123"
 
-// TypeScript will catch this error at compile time
+// Compile-time error
 console.log(getUser(orderId)); // Error: Argument of type 'OrderId' is not assignable to parameter of type 'UserId'
 ```
 
-### Why Branded Types Fix the Issue
+### Benefits of Branded Types
 
-- **Uniqueness**: Branded types add a unique "tag" (UserId or OrderId) to the base type (string), making them distinct in TypeScript's type system.
-- **Type Safety**: TypeScript enforces that only a <HighlightText>"UserId"</HighlightText> can be passed to <HighlightText>"getUser"</HighlightText> and only an <HighlightText>"OrderId"</HighlightText> to <HighlightText>"getOrder"</HighlightText>, preventing accidental misuse.
-- **No Runtime Overhead**: Branding is a compile-time construct, so it doesn't add runtime cost.
+- **Type Safety**: Ensures only correctly branded values are passed to functions, catching errors at compile time.
+- **Uniqueness**: Brands create distinct types, preventing accidental interchangeability.
+- **Zero Runtime Cost**: Branding is a compile-time construct, adding no performance overhead.
 
-By using Effect's branded types, you ensure that similar types (like UserId and OrderId) are treated as distinct, catching potential bugs at compile time rather than runtime.
+## Constructing Branded Types in Effect
 
-### A Note on Constructing Branded Types
+Effect provides two primary methods for constructing branded types: <HighlightText>Brand.nominal</HighlightText> and <HighlightText>Brand.refined</HighlightText>.
 
-Effect provides a few ways to construct branded types:
+### 1. Using <HighlightText>Brand.nominal</HighlightText>
 
-#### Using <HighlightText>Brand.nominal</HighlightText>
-
-<HighlightText>Brand.nominal</HighlightText> is the most common way to construct branded types. The __Brand.nominal__ function creates branded types without needing runtime checks. It attaches a type tag to the base type, enabling differentiation between values of the same type but with distinct purposes. These nominal branded types are helpful for enhancing code clarity and organization by ensuring type uniqueness.
+The `Brand.nominal` function creates a branded type without runtime validation, ideal for scenarios where the input is already trusted.
 
 ```ts
 import { Brand } from "effect";
 
-// Define branded types
 type UserId = string & Brand.Brand<"UserId">;
-
-// Create branded constructors
 const UserId = Brand.nominal<UserId>();
 
-// Create branded values
-const userId = UserId("123"); // Branded as UserId
-```
-
-Usage:
-```ts
 function getUser(id: UserId): string {
   return `User: ${id}`;
 }
 
-// Correct usage
-const currentUser = getUser(UserId("123")); // "User: 123"
+const userId = UserId("123");
+console.log(getUser(userId)); // Output: "User: 123"
 
-// Incorrect usage
-const currentUser = getUser(123); // Error: Argument of type 'number' is not assignable to parameter of type 'UserId'
+// Compile-time error
+console.log(getUser("123")); // Error: Argument of type 'string' is not assignable to parameter of type 'UserId'
 ```
 
-#### Using <HighlightText>Brand.refined</HighlightText>
+### 2. Using <HighlightText>Brand.refined</HighlightText>
 
+The `Brand.refined` function allows for runtime validation through a predicate, ensuring the input meets specific criteria before branding.
 
+```ts
+import { Brand } from "effect";
+
+type PositiveInt = number & Brand.Brand<"PositiveInt">;
+const PositiveInt = Brand.refined<PositiveInt>(
+  (n) => Number.isInteger(n) && n > 0,
+  (n) => `Invalid PositiveInt: ${n} is not a positive integer`
+);
+
+function processId(id: PositiveInt): string {
+  return `ID: ${id}`;
+}
+
+const validId = PositiveInt(42); // Success
+console.log(processId(validId)); // Output: "ID: 42"
+
+// Runtime error
+const invalidId = PositiveInt(-1); // Throws: Invalid PositiveInt: -1 is not a positive integer
+```
+
+## Best Practices
+
+- **Use Descriptive Brands**: Choose clear brand names (e.g., `UserId`, `OrderId`) to improve code readability.
+- **Validate When Necessary**: Use `Brand.refined` for types requiring validation (e.g., positive numbers, specific formats).
+- **Document Usage**: Clearly document branded types and their constructors to guide team members.
+- **Combine with Domain Logic**: Integrate branded types into domain models to enforce business rules at the type level.
+
+## Conclusion
+
+Effect's branded types are a powerful tool for creating type-safe APIs in TypeScript. By distinguishing structurally identical types, they prevent runtime errors and enhance code maintainability. Whether using `Brand.nominal` for simple tagging or `Brand.refined` for validated types, branded types offer a robust solution for building reliable systems.
+
+For further exploration, refer to the [Effect documentation](https://effect.website/docs) or experiment with branded types in your TypeScript projects.
