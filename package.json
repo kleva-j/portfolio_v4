@@ -25,6 +25,7 @@
     "nuqs": "^2.4.3",
     "react": "19.1.1",
     "react-dom": "19.1.1",
+    "react-medium-image-zoom": "^5.3.0",
     "react-wrap-balancer": "^1.0.0",
     "shiki": "^3.9.1",
     "sugar-high": "^0.9.3",

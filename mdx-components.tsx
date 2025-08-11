@@ -5,6 +5,7 @@ import { CodeTabs } from "@/components/animate-ui/components/code-tabs";
 import { AnimatedUnderline } from "@/components/ui/animated-underline";
 import { cn, extractValidChildren, generateKey } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
+import { ImageZoom } from "@/components/image-zoom";
 import { highlight } from "sugar-high";
 
 import {
@@ -208,13 +209,15 @@ const components = {
   HighlightText,
   CodeTabs,
   Image: ({ className, ...props }: ImageProps) => (
-    <Image
-      {...props}
-      className={cn(
-        "rounded-sm border border-blue-100 dark:border-blue-50/30 p-1",
-        className
-      )}
-    />
+    <ImageZoom>
+      <Image
+        {...props}
+        className={cn(
+          "rounded-sm border border-blue-100 dark:border-blue-50/30 p-1",
+          className
+        )}
+      />
+    </ImageZoom>
   ),
 };
 

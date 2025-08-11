@@ -1,5 +1,6 @@
 import type { Post } from "@/types";
 
+import { ImageZoom } from "@/components/image-zoom";
 import { format } from "date-fns";
 
 import Image from "next/image";
@@ -29,13 +30,15 @@ export const PostHeader = ({ metadata }: { metadata: Post }) => {
         </p>
       </div>
       {metadata.image && (
-        <Image
-          src={metadata.image}
-          alt={metadata.title}
-          width={1200}
-          height={630}
-          className="mx-auto my-4"
-        />
+        <ImageZoom>
+          <Image
+            src={metadata.image}
+            alt={metadata.title}
+            width={1200}
+            height={630}
+            className="mx-auto my-4"
+          />
+        </ImageZoom>
       )}
     </div>
   );
