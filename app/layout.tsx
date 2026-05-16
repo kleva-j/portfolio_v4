@@ -2,12 +2,12 @@ import type { PropsWithChildren } from "react";
 import type { Metadata } from "next";
 
 import { ShowScrollProgress } from "@/components/show-scroll-progress";
-import { unstable_ViewTransition as ViewTransition } from "react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SplashScreen } from "@/components/splash-screen";
 import { Particles } from "@/components/ui/particles";
 import { siteConfig } from "@/lib/site/config";
 import { Header } from "@/layout/header";
+import { ViewTransition } from "react";
 import { graphik } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 
