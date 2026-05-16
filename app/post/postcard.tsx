@@ -23,7 +23,7 @@ export const PostCard = ({ post }: PostCardProps) => {
     <Link href={`/post/${slug}`}>
       <Card className="group border relative overflow-hidden rounded-sm p-6 gap-2 shadow-none hover:shadow-xs transition-all hover:bg-blue-50 dark:hover:bg-blue-950/80 cursor-pointer">
         <CardHeader className="p-0">
-          <CardTitle className="text-blue-600 dark:text-blue-400">
+          <CardTitle className="text-blue-600 dark:text-blue-400 leading-6.5 line-clamp-2">
             {title}
           </CardTitle>
         </CardHeader>
