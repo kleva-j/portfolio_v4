@@ -143,10 +143,13 @@ async function getPost() {
     postsSlugs.map(async (slug: string) => {
       try {
         const { metadata } = (await import(`@/content/post/${slug}.mdx`)) as {
-          metadata: PostMetadata;
+          metadata: PostMetadata & { archived?: boolean; draft?: boolean };
         };
 
         if (!validateMetadata(metadata, requiredMetadata, slug)) return null;
+
+        // Hide posts that are archived or drafts
+        if (metadata.archived === true || metadata.draft === true) return null;
 
         return { ...metadata, slug } as Post;
       } catch (error) {

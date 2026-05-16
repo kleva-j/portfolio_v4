@@ -8,7 +8,7 @@ import Image from "next/image";
 export const PostHeader = ({ metadata }: { metadata: Post }) => {
   return (
     <div data-slot="post-header" className="relative w-screen left-1/2 -translate-x-1/2 text-center flex flex-col items-center">
-      <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-gray-800 dark:text-gray-100 max-w-[960px] w-auto mx-auto px-4">
+      <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 dark:text-gray-100 max-w-[960px] w-auto mx-auto px-4">
         {metadata.title}
       </h1>
       <p className="text-gray-600 dark:text-gray-400 mt-4 mb-2 max-w-lg mx-auto">

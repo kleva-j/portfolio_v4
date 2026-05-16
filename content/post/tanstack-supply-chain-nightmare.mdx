@@ -1,14 +1,14 @@
 export const metadata = {
   title: "The TanStack npm Supply Chain Nightmare: How a Clever GitHub Workflow Hack Poisoned Millions of Downloads",
   summary: "A detailed breakdown of the May 2026 TanStack supply chain attack, how it exploited GitHub Actions, and practical steps every developer should take to protect their projects.",
-  publishedAt: "2026-05-16",
+  publishedAt: "2026-05-14",
   readTime: "7 min",
    image: "/images/tanstack/Hryem.jpg"
 };
 
 ---
 
-On May 14, 2026, the open-source world woke up to one of its worst fears realized. Over 100 packages, collectively downloaded more than **50 million times per week**, were compromised in a sophisticated supply chain attack. No phishing. No stolen passwords or tokens. The malicious packages were even signed and published through npm’s trusted publishing system. 
+On May 11, 2026, the open-source world woke up to one of its worst fears realized. Over 100 packages, collectively downloaded more than **50 million times per week**, were compromised in a sophisticated supply chain attack. No phishing. No stolen passwords or tokens. The malicious packages were even signed and published through npm’s trusted publishing system. 
 
 This wasn’t a brute-force attack—it was a precision strike on how modern open-source projects release code. Here’s the full story, why it worked, and what every developer should do to protect themselves.
 
@@ -17,7 +17,7 @@ This wasn’t a brute-force attack—it was a precision strike on how modern ope
 Popular libraries in the TanStack ecosystem (think TanStack Query, Router, Table, etc.) use GitHub Actions for automated publishing. When a pull request merges to main, a workflow:
 
 1. Requests a short-lived npm publish token from npm.
-2. npm verifies a signed statement from GitHub about the workflow, repo, and branch.
+2. npm verifies a signed statement from GitHub about the workflow, repository, and branch.
 3. The token is used briefly and discarded.
 
 On paper, this is secure. In practice, a dangerous misconfiguration turned it into a trap.
